@@ -1,8 +1,8 @@
 [user]
 	name = Ben Stuart
-	email = 25982949+ChoncyBear@users.noreply.github.com
+	email = ben@benstuart.ie
 [core]
 	editor = vim
 	autocrlf = input
 [init]
-  defaultBranch = main
+	defaultBranch = main
