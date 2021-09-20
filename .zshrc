@@ -6,7 +6,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/ben/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
+# Install Ruby Gems to ~/.gems
+export GEM_HOME="$HOME/gems"
 
 # Set oh-my-zsh theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -44,6 +46,9 @@ alias py=python3
 
 # dotfiles config aliases
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+
+# export PATH
+export PATH="$GEM_HOME/bin:$PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
