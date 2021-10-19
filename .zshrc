@@ -7,8 +7,9 @@ fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+
 # Install Ruby Gems to ~/.gems
-export GEM_HOME="$HOME/gems"
+export GEM_HOME="$HOME/.gems"
 
 # Set oh-my-zsh theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -25,7 +26,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-flow-completion)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
