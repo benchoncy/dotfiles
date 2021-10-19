@@ -7,7 +7,8 @@ fi
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
-
+# Path to go-lang installation
+export GO_HOME="/usr/local/go"
 # Install Ruby Gems to ~/.gems
 export GEM_HOME="$HOME/.gems"
 
@@ -49,7 +50,7 @@ alias py=python3
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # export PATH
-export PATH="$GEM_HOME/bin:$PATH"
+export PATH="$PATH:$GEM_HOME/bin:$GO_HOME/bin"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
