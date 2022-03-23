@@ -5,31 +5,14 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-# Path to go-lang installation
-export GO_HOME="/usr/local/go"
-# Install Ruby Gems to ~/.gems
-export GEM_HOME="$HOME/.gems"
-
 # Set oh-my-zsh theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # The following line sets command execution time format.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
 HIST_STAMPS="yyyy-mm-dd"
 
 # Which plugins would you like to load?
-# Standard plugins can be found in $ZSH/plugins/
-# Custom plugins may be added to $ZSH_CUSTOM/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -45,12 +28,29 @@ EDITOR='vim'
 alias zshconfig="mate ~/.zshrc"
 alias ohmyzsh="mate ~/.oh-my-zsh"
 alias py=python3
-
-# dotfiles config aliases
 alias config='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
-# export PATH
-export PATH="$PATH:$GEM_HOME/bin:$GO_HOME/bin"
+# PATHs
+export ZSH="$HOME/.oh-my-zsh"
+export GEM_HOME="$HOME/.gems"
+export GO_HOME="/usr/local/go"
+
+# Local bin PATH
+if [ -d "$HOME/.local/bin" ] ; then
+    export PATH="$PATH:$HOME/.local/bin"
+fi
+
+# Go Home
+if [ -d "$GO_HOME" ] ; then
+    export PATH="$PATH:$GO_HOME"
+fi
+
+# Gems Home
+if [ -d "$GEM_HOME" ] ; then
+    export PATH="$PATH:$GEM_HOME"
+fi
+
+source $ZSH/oh-my-zsh.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
