@@ -1,16 +1,32 @@
 # ~/.zshrc
 
-# Enable plugins
+# load custom executable functions
+for function in ~/.zsh/functions/*; do
+  source $function
+done
+
+# enable plugins
 plugins=(git)
 
-# Preferred editor
+# preferred editor
 EDITOR='vim'
 
-# Aliases
-alias zshconfig="$EDITOR ~/.zshrc"
-alias py=python3
-
-# PATHs
+# ENV & PATH
 export GEM_HOME="$HOME/.gems"
 export GO_HOME="/usr/local/go"
 export PATH="$PATH:$HOME/.local/bin:$GEM_HOME:$GO_HOME"
+
+# aliases
+alias zshconfig="$EDITOR ~/.zshrc"
+alias py=python3
+
+# git aliases
+alias gs='git status'
+alias gc='git commit'
+alias gp='git pull --rebase'
+alias gcam='git commit -am'
+
+# load extra aliases
+if [ -f ~/.aliases ] ; then
+    source ~/.aliases
+fi
