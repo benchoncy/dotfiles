@@ -2,3 +2,4 @@ Include config.d/*
 
 Host *
   PubkeyAcceptedKeyTypes=+ssh-dss
+  IdentityAgent ~/.1password/agent.sock
