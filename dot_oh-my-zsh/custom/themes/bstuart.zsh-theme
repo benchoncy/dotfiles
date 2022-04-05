@@ -32,7 +32,7 @@ ZSH_THEME_GIT_PROMPT_DIVERGED_REMOTE=" %{$good%}⇡$(git_commits_ahead)%{$error%
 ZSH_THEME_GIT_PROMPT_EQUAL_REMOTE=""
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$warning%}*"
 ZSH_THEME_GIT_PROMPT_PREFIX=" [%{$muted%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}$(git_prompt_status)$(git_remote_status)]"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}]"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
-PROMPT='$(directory)$(git_prompt_info)$(prompt)'
+PROMPT='$(directory)$(git_prompt_info)$(git_prompt_status)$(git_remote_status)$(prompt)'
