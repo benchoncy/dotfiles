@@ -1,24 +1,38 @@
 # zsh theme bstuart
 
+if [[ $terminfo[colors] -ge 256 ]]; then
+    error="%F{160}"
+    warning="%F{184}"
+    good="%F{35}"
+    info="%F{81}"
+    muted="%F{247}"
+else
+    error="%F{red}"
+    warning="%F{yellow}"
+    good="%F{green}"
+    info="%F{cyan}"
+    muted="%F{white}"
+fi
+
 directory() {
-  echo "%F{045}%c%f"
+  if [[ "$(git_repo_name)" == "" ]]; then
+    echo "%{$info%}%~%f"
+  else
+    echo "%{$info%}$(git_repo_name)%f"
+  fi
 } 
 
 prompt() {
-  echo ' %F{040}$%f'
+  echo " %{$good%}%(!.#.$)%f "
 }
 
-ZSH_THEME_GIT_PROMPT_PREFIX=" ("
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%})"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[yellow]%} ±"
-ZSH_THEME_GIT_PROMPT_CHANGED="%{$fg[blue]%}%{✚%G%}"
-ZSH_THEME_GIT_PROMPT_STAGED="%{$fg[green]%} +"
-ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
-ZSH_THEME_GIT_PROMPT_BRANCH=""
-ZSH_THEME_GIT_PROMPT_BEHIND="%{↓%G%}"
-ZSH_THEME_GIT_PROMPT_AHEAD="%{↑%G%}"
-ZSH_THEME_GIT_PROMPT_UNTRACKED="%{…%G%}"
-ZSH_THEME_GIT_PROMPT_STASHED="*%G"
+ZSH_THEME_GIT_PROMPT_BEHIND_REMOTE=" %{$error%}⇣$(git_commits_behind)%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_AHEAD_REMOTE=" %{$good%}⇡$(git_commits_ahead)%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIVERGED_REMOTE=" %{$good%}⇡$(git_commits_ahead)%{$error%}⇣$(git_commits_behind)%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_EQUAL_REMOTE=""
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$warning%}*"
+ZSH_THEME_GIT_PROMPT_PREFIX=" [%{$muted%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}$(git_prompt_status)$(git_remote_status)]"
 ZSH_THEME_GIT_PROMPT_CLEAN=""
 
-PROMPT=' $(directory)$(git_prompt_info)$(prompt) '
+PROMPT='$(directory)$(git_prompt_info)$(prompt)'
