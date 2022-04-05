@@ -30,6 +30,11 @@ git_custom_status() {
   AHEAD_REMOTE="%{$good%}⇡$(git_commits_ahead)%{$reset_color%}"
   BEHIND_REMOTE="%{$error%}⇣$(git_commits_behind)%{$reset_color%}"
 
+  ZSH_THEME_GIT_PROMPT_DIRTY="%{$warning%}*"
+  ZSH_THEME_GIT_PROMPT_PREFIX="%{$muted%}"
+  ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+  ZSH_THEME_GIT_PROMPT_CLEAN=""
+
   ZSH_THEME_GIT_PROMPT_EQUAL_REMOTE=""
   ZSH_THEME_GIT_PROMPT_AHEAD_REMOTE=" $AHEAD_REMOTE"
   ZSH_THEME_GIT_PROMPT_BEHIND_REMOTE=" $BEHIND_REMOTE"
@@ -37,10 +42,5 @@ git_custom_status() {
 
   echo " [$(git_prompt_info)$(git_remote_status)]"
 }
-
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$warning%}*"
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$muted%}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN=""
 
 PROMPT='$(directory)$(git_custom_status)$(prompt)'
