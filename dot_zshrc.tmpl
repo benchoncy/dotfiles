@@ -21,7 +21,9 @@ plugins=(git)
 EDITOR='vim'
 
 # ENV & PATH
+{{ if stat (joinPath .chezmoi.homeDir ".1password/agent.sock") -}}
 export SSH_AUTH_SOCK=~/.1password/agent.sock # Let 1password manage SSH keys
+{{- end }}
 export GEM_HOME="$HOME/.gems"
 export GO_HOME="/usr/local/go"
 export PATH="$PATH:$HOME/bin:/usr/local/bin:$HOME/.local/bin:$GEM_HOME:$GO_HOME"

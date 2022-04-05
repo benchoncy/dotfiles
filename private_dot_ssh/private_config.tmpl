@@ -2,4 +2,6 @@ Include config.d/*
 
 Host *
   PubkeyAcceptedKeyTypes=+ssh-dss
+  {{ if stat (joinPath .chezmoi.homeDir ".1password/agent.sock") -}}
   IdentityAgent ~/.1password/agent.sock
+  {{- end }}
