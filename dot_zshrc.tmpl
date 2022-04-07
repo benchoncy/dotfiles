@@ -37,3 +37,8 @@ alias gs='git status'
 alias gc='git commit'
 alias gp='git pull --rebase'
 alias gcam='git commit -am'
+
+# nix
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
+  . $HOME/.nix-profile/etc/profile.d/nix.sh;
+fi
