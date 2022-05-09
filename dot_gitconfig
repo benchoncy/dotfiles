@@ -1,10 +1,12 @@
 [user]
 	name = Ben Stuart
-	email = ben@benstuart.ie
+	email = {{ .email }}
 [core]
 	editor = vim
 	autocrlf = input
 [init]
+	{{ if eq .email "ben@benstuart.ie" -}}
 	defaultBranch = main
+	{{- end }}
 [pull]
 	rebase = true
