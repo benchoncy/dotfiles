@@ -4,7 +4,7 @@
   url: https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz
   stripComponents: 1
   refreshPeriod: 168h
-".local/bin":
+".local/scripts":
   type: archive
   url: https://github.com/benchoncy/useful-scripts/archive/main.tar.gz
   stripComponents: 1
