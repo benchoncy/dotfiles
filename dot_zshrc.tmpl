@@ -21,8 +21,10 @@ plugins=(git)
 EDITOR='vim'
 
 # ENV & PATH
-{{ if stat (joinPath .chezmoi.homeDir ".1password/agent.sock") -}}
+{{ if ne .chezmoi.os "linux" -}}
+  {{ if stat (joinPath .chezmoi.homeDir ".1password/agent.sock") -}}
 export SSH_AUTH_SOCK=~/.1password/agent.sock # Let 1password manage SSH keys
+  {{- end }}
 {{- end }}
 export GEM_HOME="$HOME/.gems"
 export GO_HOME="/usr/local/go"
@@ -37,8 +39,3 @@ alias gs='git status'
 alias gc='git commit'
 alias gp='git pull --rebase'
 alias gcam='git commit -am'
-
-# nix
-if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
-  source $HOME/.nix-profile/etc/profile.d/nix.sh;
-fi
