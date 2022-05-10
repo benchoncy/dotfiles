@@ -21,9 +21,9 @@ plugins=(git)
 EDITOR='vim'
 
 # ENV & PATH
-{{- if (and (stat (joinPath .chezmoi.homeDir ".1password/agent.sock")) (ne .chezmoi.os "linux")) -}}
+{{- if (and (stat (joinPath .chezmoi.homeDir ".1password/agent.sock")) (eq .chezmoi.os "linux")) -}}
 export SSH_AUTH_SOCK=~/.1password/agent.sock
-{{ else if (and (stat (joinPath .chezmoi.homeDir "Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock")) (ne .chezmoi.os "darwin")) }}
+{{ else if (and (stat (joinPath .chezmoi.homeDir "Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock")) (eq .chezmoi.os "darwin")) }}
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 {{- end }}
 export GEM_HOME="$HOME/.gems"
