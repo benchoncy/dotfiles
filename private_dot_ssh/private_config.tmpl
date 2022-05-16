@@ -2,8 +2,8 @@ Include config.d/*
 
 Host *
   PubkeyAcceptedKeyTypes=+ssh-dss
-  {{- if (and (stat (joinPath .chezmoi.homeDir ".1password/agent.sock")) (eq .chezmoi.os "linux")) -}}
+  {{- if (and (stat (joinPath .chezmoi.homeDir ".1password/agent.sock")) (eq .chezmoi.os "linux")) }}
   IdentityAgent ~/.1password/agent.sock
   {{ else if (and (stat (joinPath .chezmoi.homeDir "Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock")) (eq .chezmoi.os "darwin")) }}
   IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
-  {{- end }}
+  {{ end }}
