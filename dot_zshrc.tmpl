@@ -15,8 +15,6 @@ export LANG=en_GB.UTF-8
 plugins=(
   git
   kubectl
-  pyenv
-  sudo
 )
 
 # preferred editor
@@ -28,16 +26,12 @@ export SSH_AUTH_SOCK=~/.1password/agent.sock
 {{ else if (and (stat (joinPath .chezmoi.homeDir "Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock")) (eq .chezmoi.os "darwin")) }}
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 {{- end }}
-export PYENV_ROOT="$HOME/.pyenv"
-export GO_HOME="/usr/local/go"
-export PATH="$PATH:$HOME/bin:/usr/local/bin:$HOME/.local/bin:$HOME/.local/scripts:$GO_HOME:$PYENV_ROOT/bin"
+export PATH="$PATH:$HOME/bin:/usr/local/bin:$HOME/.local/bin:$HOME/.local/scripts"
 
 # aliases
 alias zshconfig="chezmoi edit ~/.zshrc"
-alias py=python3
 
 # git aliases
 alias gs='git status'
 alias gc='git commit'
-alias gp='git pull --rebase'
 alias gcam='git commit -am'
