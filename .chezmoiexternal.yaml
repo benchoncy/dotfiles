@@ -10,6 +10,3 @@
   stripComponents: 1
   executable: True
   exclude: ["**/LICENSE", "**/*.md"]
-".notes":
-  type: git-repo
-  url: git@github.com:benchoncy/notes.git

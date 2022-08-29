@@ -1,3 +1,6 @@
 ---
+{{ $email := promptString "email" -}}
+secret:
+  command: "op"
 data:
-  email: "ben@benstuart.ie"
+  email: {{ $email | quote }}
