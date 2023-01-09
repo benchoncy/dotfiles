@@ -1,5 +1,5 @@
 ---
-{{ $email := promptString "email" -}}
+{{ $email := promptStringOnce . "email" "What is your email address" -}}
 secret:
   command: "op"
 data:

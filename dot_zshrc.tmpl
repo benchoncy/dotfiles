@@ -19,9 +19,9 @@ plugins=(
 EDITOR='vim'
 
 # ENV and PATH
-{{- if (and (stat (joinPath .chezmoi.homeDir ".1password/agent.sock")) (eq .chezmoi.os "linux")) -}}
+{{- if eq .chezmoi.os "linux" -}}
 export SSH_AUTH_SOCK=~/.1password/agent.sock
-{{ else if (and (stat (joinPath .chezmoi.homeDir "Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock")) (eq .chezmoi.os "darwin")) }}
+{{ else if eq .chezmoi.os "darwin" }}
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 {{- end }}
 export LANG=en_GB.UTF-8
