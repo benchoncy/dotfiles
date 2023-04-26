@@ -4,6 +4,9 @@
   url: https://github.com/ohmyzsh/ohmyzsh/archive/master.tar.gz
   stripComponents: 1
   refreshPeriod: 168h
+".oh-my-zsh/custom/plugins/zsh-autosuggestions":
+  type: git-repo
+  url: https://github.com/zsh-users/zsh-autosuggestions
 ".local/scripts":
   type: archive
   url: https://github.com/benchoncy/useful-scripts/archive/main.tar.gz
