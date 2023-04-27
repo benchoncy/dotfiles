@@ -26,14 +26,21 @@ plugins=(
 # preferred editor
 EDITOR='vim'
 
-# ENV and PATH
+# general env
 {{- if eq .chezmoi.os "linux" -}}
 export SSH_AUTH_SOCK=~/.1password/agent.sock
 {{ else if eq .chezmoi.os "darwin" }}
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
 {{- end }}
 export LANG=en_GB.UTF-8
-export PATH="$PATH:$HOME/bin:/usr/local/bin:$HOME/.local/bin:$HOME/.local/scripts"
+
+# custom scripts
+export PATH="$PATH:$HOME/.local/scripts"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
 
 # aliases
 alias zshconfig="chezmoi edit ~/.zshrc"
