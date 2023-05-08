@@ -42,6 +42,9 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 
+# conda
+export PATH="$PATH:$HOME/miniconda/bin"
+
 # aliases
 alias zshconfig="chezmoi edit ~/.zshrc"
 
