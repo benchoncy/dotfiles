@@ -24,10 +24,10 @@ plugins=(
 )
 
 # preferred editor
-EDITOR='vim'
+EDITOR='evim'
 
 # general env
-{{- if eq .chezmoi.os "linux" -}}
+{{ if eq .chezmoi.os "linux" -}}
 export SSH_AUTH_SOCK=~/.1password/agent.sock
 {{ else if eq .chezmoi.os "darwin" }}
 export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
@@ -35,7 +35,7 @@ export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agen
 export LANG=en_GB.UTF-8
 
 # custom scripts
-export PATH="$PATH:$HOME/.local/scripts"
+export PATH="$PATH:$HOME/.local/scripts:$HOME/.local/bin"
 
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
