@@ -22,4 +22,7 @@ Plug 'L3MON4D3/LuaSnip'     " Required
 
 Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v2.x'}
 
+" AI Assistance
+Plug 'github/copilot.vim'
+
 call plug#end()
