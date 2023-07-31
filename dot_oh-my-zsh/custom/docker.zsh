@@ -1,6 +1,6 @@
 # Useful quick docker functions
 
-DEFAULT_IMAGE="ubuntu:latest"
+DEFAULT_IMAGE="fedora:latest"
 DEFAULT_COMMAND="/bin/bash"
 
 # Start a Docker container running with a given command

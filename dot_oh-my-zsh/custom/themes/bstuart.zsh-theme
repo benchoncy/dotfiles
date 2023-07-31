@@ -1,11 +1,11 @@
 # zsh theme bstuart
 
 if [[ $terminfo[colors] -ge 256 ]]; then
-    error="%F{160}"
-    warning="%F{184}"
-    good="%F{35}"
-    info="%F{81}"
-    muted="%F{247}"
+    error="%F{196}"
+    warning="%F{220}"
+    good="%F{034}"
+    info="%F{074}"
+    muted="%F{245}"
 else
     error="%F{red}"
     warning="%F{yellow}"
@@ -13,6 +13,7 @@ else
     info="%F{cyan}"
     muted="%F{white}"
 fi
+reset_color="%f"
 
 function git_repo_path() {
   local git_repo_name="$(git_repo_name)"
@@ -31,7 +32,7 @@ function directory() {
 } 
 
 function prompt() {
-  echo " %{$good%}%(!.#.$)%f "
+  echo " %{$good%}%(!.#.>)%f "
 }
 
 function git_custom_status() {

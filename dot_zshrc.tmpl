@@ -11,26 +11,18 @@ zstyle ':omz:update' mode disabled
 plugins=(
   git
   zsh-autosuggestions
-  aws
-  kubectl
-  pip
-  poetry
-  pipenv
-  pyenv
-  python
-  terraform
-  ansible
-  vagrant
 )
 
 # preferred editor
 EDITOR='evim'
 
 # general env
-{{ if eq .chezmoi.os "linux" -}}
-export SSH_AUTH_SOCK=~/.1password/agent.sock
-{{ else if eq .chezmoi.os "darwin" }}
-export SSH_AUTH_SOCK=~/Library/Group\ Containers/2BUA8C4S2C.com.1password/t/agent.sock
+{{ $linux1PPath := "~/.1password/agent.sock" -}}
+{{ $macOS1PPath := "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" -}}
+{{ if and (eq .chezmoi.os "linux") (stat $linux1PPath) -}}
+export SSH_AUTH_SOCK={{ $linux1PPath }}
+{{ else if and (eq .chezmoi.os "darwin") (stat $macOS1PPath) -}}
+export SSH_AUTH_SOCK={{ $macOS1PPath }}
 {{- end }}
 export LANG=en_GB.UTF-8
 
@@ -43,21 +35,20 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
 
 # conda
-# >>> conda initialize >>>
-__conda_setup="$('$HOME/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "$HOME/miniconda/etc/profile.d/conda.sh" ]; then
-        . "$HOME/miniconda/etc/profile.d/conda.sh"
-    else
-        export PATH="$HOME/miniconda/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+conda_init() {
+  __conda_setup="$('$HOME/miniconda/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+  if [ $? -eq 0 ]; then
+      eval "$__conda_setup"
+  elif [ -f "$HOME/miniconda/etc/profile.d/conda.sh" ]; then
+      . "$HOME/miniconda/etc/profile.d/conda.sh"
+  else
+      export PATH="$HOME/miniconda/bin:$PATH"
+  fi
+}
+conda_init
 
 # aliases
 alias zshconfig="chezmoi edit ~/.zshrc"
+alias dotconfig="chezmoi edit ~"
 
 source $ZSH/oh-my-zsh.sh
