@@ -4,7 +4,7 @@ if [[ $terminfo[colors] -ge 256 ]]; then
     error="%F{196}"
     warning="%F{220}"
     good="%F{034}"
-    info="%F{074}"
+    info="%F{075}"
     muted="%F{245}"
 else
     error="%F{red}"
