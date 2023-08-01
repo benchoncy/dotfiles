@@ -6,38 +6,6 @@ lsp.on_attach(function(client, bufnr)
     lsp.default_keymaps({buffer = bufnr})
 end)
 
-require("mason").setup()
-require("mason-lspconfig").setup({
-    ensure_installed = {
-        -- Lua
-        "lua_ls",
-        -- Bash
-        "bashls",
-        -- Docker
-        "dockerls",
-        -- Go
-        "gopls",
-        -- Data files
-        "html",
-        "jsonls",
-        "taplo",
-        "yamlls",
-        -- Latex
-        "ltex",
-        -- Markdown
-        "marksman",
-        -- Python
-        "pyright",
-        "pylsp",
-        -- Terraform
-        "terraformls",
-        -- Ansible
-        "ansiblels",
-        -- Kubernetes
-        "helm_ls",
-    },
-})
-
 lsp.setup()
 
 -- You need to setup `cmp` after lsp-zero
