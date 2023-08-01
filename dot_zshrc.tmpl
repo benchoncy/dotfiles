@@ -14,7 +14,7 @@ plugins=(
 )
 
 # preferred editor
-EDITOR='evim'
+EDITOR='nvim'
 
 # general env
 {{ $linux1PPath := "~/.1password/agent.sock" -}}
@@ -49,6 +49,6 @@ conda_init
 
 # aliases
 alias zshconfig="chezmoi edit ~/.zshrc"
-alias dotconfig="chezmoi edit ~"
+alias dotconfig="chezmoi edit"
 
 source $ZSH/oh-my-zsh.sh
