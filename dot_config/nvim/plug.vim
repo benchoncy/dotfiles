@@ -25,4 +25,13 @@ Plug 'VonHeikemen/lsp-zero.nvim', {'branch': 'v2.x'}
 " AI Assistance
 Plug 'github/copilot.vim'
 
+" Git
+Plug 'tpope/vim-fugitive'
+
+" Icons
+Plug 'nvim-tree/nvim-web-devicons'
+
+" Status Line
+Plug 'nvim-lualine/lualine.nvim'
+
 call plug#end()
