@@ -10,5 +10,4 @@
 	rebase = true
 [alias]
     dlm  = "!git fetch && git branch --merged | grep -v 'master|dev|main|staging|qa' | xargs git branch -d"
-    nb   = "!git checkout main && git pull && git checkout -b $1 && git push -u origin $1"
     hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
