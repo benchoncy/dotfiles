@@ -10,5 +10,5 @@
 	rebase = true
 [alias]
     dlm  = "!git fetch && git branch --merged | grep -v 'master|dev|main|staging|qa' | xargs git branch -d"
-    nb = "!git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' | git checkout && git pull && git checkout -b $1"
+    nb   = "!git fetch --all && git symbolic-ref refs/remotes/origin/HEAD | sed 's@^refs/remotes/origin/@@' | git checkout -b $1 "
     hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
