@@ -1,3 +1,6 @@
+-- LSP zero and associated plugin(s) configuration
+-- Purpose: Provides language server protocol integration and autocompletion.
+
 local config = function()
     local lsp = require('lsp-zero').preset({})
 

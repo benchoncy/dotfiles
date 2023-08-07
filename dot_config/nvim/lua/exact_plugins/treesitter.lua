@@ -1,3 +1,6 @@
+-- Treesitter plugin configuration
+-- Purpose: Provides syntax highlighting.
+
 local config = function ()
     require'nvim-treesitter.configs'.setup {
       sync_install = false,

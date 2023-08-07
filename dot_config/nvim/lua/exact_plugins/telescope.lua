@@ -1,3 +1,6 @@
+-- Telescope plugin configuration
+-- Purpose: Provides a fuzzy finder.
+
 local config = function()
     local builtin = require('telescope.builtin')
 

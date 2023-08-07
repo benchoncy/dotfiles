@@ -1,3 +1,6 @@
+-- Lualine plugin configuration
+-- Purpose: Provides a configurable statusline UI element.
+
 local config = function()
     require('lualine').setup({
         options = {

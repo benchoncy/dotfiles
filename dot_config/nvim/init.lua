@@ -1,3 +1,6 @@
+-- Neovim entrypoint, loads plugins and config.
+
+-- Load regular config
 require("config.set")
 require("config.remap")
 
