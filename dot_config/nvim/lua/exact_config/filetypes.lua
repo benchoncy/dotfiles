@@ -12,9 +12,11 @@ vim.filetype.add({
             if type(content) == "table" then
                 content = table.concat(content, "\n")
             end
-            -- Check if file is ansible
-            if path:match('[tasks|roles|handlers].*$') or
-               content:match('[hosts|gather_facts|vars_files]:') then
+            -- Check if file is ansible, based on path or content
+            if path:match('tasks/.+%.y(a?)ml') or
+               path:match('handlers/.+%.y(a?)ml') or
+               path:match('roles/.+%.y(a?)ml') or
+               content:match('ansible%.builtin') then
                 return 'yaml.ansible'
             end
             -- Default to yaml
