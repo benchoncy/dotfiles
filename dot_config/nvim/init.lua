@@ -3,6 +3,7 @@
 -- Load regular config
 require("config.set")
 require("config.remap")
+require("config.filetypes")
 
 -- Bootstrap lazy.nvim if it doesn't exist
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
