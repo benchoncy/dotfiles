@@ -9,11 +9,6 @@
   type: git-repo
   url: https://github.com/zsh-users/zsh-autosuggestions
 
-".local/share/nvim/site/autoload/plug.vim":
-  type: file
-  url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  refreshPeriod: 168h
-
 ".local/share/fonts/hacknerdfont":
   type: archive
   url: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.tar.xz
