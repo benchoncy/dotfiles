@@ -35,7 +35,7 @@ local function ft_yaml(path, bufnr)
 
     -- Match Helm
     if is_helm_file(path, bufnr) then
-        return 'yaml.helm'
+        return 'helm'
     end
 
     -- Default to yaml
