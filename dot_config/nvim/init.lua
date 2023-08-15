@@ -1,9 +1,7 @@
 -- Neovim entrypoint, loads plugins and config.
 
 -- Load regular config
-require("config.set")
-require("config.remap")
-require("config.filetypes")
+require("config")
 
 -- Bootstrap lazy.nvim if it doesn't exist
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
