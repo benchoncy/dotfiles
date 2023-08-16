@@ -8,6 +8,8 @@
 	defaultBranch = main
 [pull]
 	rebase = true
+[push]
+    autoSetupRemote = true
 [alias]
     dlm  = "!git fetch && git branch --merged | grep -v 'master|dev|main|staging|qa' | xargs git branch -d"
     hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
