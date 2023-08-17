@@ -4,4 +4,5 @@
 return {
     'towolf/vim-helm',
     'pearofducks/ansible-vim',
+    'yasuhiroki/github-actions-yaml.vim',
 }
