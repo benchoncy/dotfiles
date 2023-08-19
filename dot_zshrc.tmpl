@@ -26,6 +26,11 @@ export SSH_AUTH_SOCK={{ $macOS1PPath }}
 {{- end }}
 export LANG=en_GB.UTF-8
 
+{{ if (eq .chezmoi.os "darwin") -}}
+# brew path
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+{{- end }}
+
 # custom scripts
 export PATH="$PATH:$HOME/.local/scripts:$HOME/.local/bin"
 
