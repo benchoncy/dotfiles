@@ -8,8 +8,12 @@ return {
         'arkav/lualine-lsp-progress',
     },
     config = function()
+        local custom_kanagawa = require('lualine.themes.kanagawa')
+        custom_kanagawa.normal.b.bg = '#181616'
+
         require('lualine').setup({
             options = {
+                theme = custom_kanagawa,
                 section_separators = {'|', '|'},
                 component_separators = {'|', '|'},
             },

@@ -1,5 +1,7 @@
 -- Set vim options
 
+vim.opt.background = "dark"
+
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
