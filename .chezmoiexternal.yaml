@@ -9,6 +9,10 @@
   type: git-repo
   url: https://github.com/zsh-users/zsh-autosuggestions
 
+".tmux/plugins/tpm":
+  type: git-repo
+  url: https://github.com/tmux-plugins/tpm
+
 ".local/share/fonts/hacknerdfont":
   type: archive
   url: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.tar.xz
