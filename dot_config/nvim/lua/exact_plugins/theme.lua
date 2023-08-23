@@ -2,8 +2,11 @@
 -- Purpose: Provides a UI theme.
 
 return {
-    "rebelot/kanagawa.nvim",
+    "navarasu/onedark.nvim",
     config = function ()
-        vim.cmd.colorscheme "kanagawa-dragon"
+        require("onedark").setup({
+            style = "warmer"
+        })
+        vim.cmd.colorscheme "onedark"
     end
 }
