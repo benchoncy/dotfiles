@@ -13,10 +13,3 @@
   type: archive
   url: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.tar.xz
   exclude: ["**/LICENSE", "**/*.md"]
-
-".local/scripts":
-  type: archive
-  url: https://github.com/benchoncy/useful-scripts/archive/main.tar.gz
-  stripComponents: 1
-  executable: True
-  exclude: ["**/LICENSE", "**/*.md"]
