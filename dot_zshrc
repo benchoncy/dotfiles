@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+# ~/.zshrc
+
+# oh-my-zsh
+ZSH=$HOME/.oh-my-zsh
+ZSH_THEME="bstuart"
+HIST_STAMPS="yyyy-mm-dd"
+
+zstyle ':omz:update' mode disabled
+
+# enable plugins
+plugins=(
+  git
+  zsh-autosuggestions
+)
+
+source $HOME/.config/shell/general.sh
+source $HOME/.config/shell/exports.sh
+source $HOME/.config/shell/python.sh
+source $HOME/.config/shell/aliases.sh
+source $HOME/.config/shell/tmux.sh
+
+source $ZSH/oh-my-zsh.sh

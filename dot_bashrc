@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# ~/.bashrc
+
+source $HOME/.config/shell/general.sh
+source $HOME/.config/shell/exports.sh
+source $HOME/.config/shell/python.sh
+source $HOME/.config/shell/aliases.sh
+source $HOME/.config/shell/tmux.sh
+

@@ -1,0 +1,18 @@
+# general env
+{{ $linux1PPath := "~/.1password/agent.sock" -}}
+{{ $macOS1PPath := "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" -}}
+{{ if and (eq .chezmoi.os "linux") (stat $linux1PPath) -}}
+export SSH_AUTH_SOCK={{ $linux1PPath }}
+{{ else if and (eq .chezmoi.os "darwin") (stat $macOS1PPath) -}}
+export SSH_AUTH_SOCK={{ $macOS1PPath }}
+{{- end }}
+export LANG=en_GB.UTF-8
+
+{{ if (eq .chezmoi.os "darwin") -}}
+# brew path
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+{{- end }}
+
+# custom scripts
+export PATH="$PATH:$HOME/.local/scripts:$HOME/.local/bin"
+
