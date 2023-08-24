@@ -14,10 +14,5 @@ plugins=(
   zsh-autosuggestions
 )
 
-source $HOME/.config/shell/general.sh
-source $HOME/.config/shell/exports.sh
-source $HOME/.config/shell/python.sh
-source $HOME/.config/shell/aliases.sh
-source $HOME/.config/shell/tmux.sh
-
+source $HOME/.config/shell/init.sh
 source $ZSH/oh-my-zsh.sh
