@@ -10,11 +10,7 @@ RGB_COLOR = tuple(int(HEX_COLOR[i:i + 2], 16) for i in (0, 2, 4))
 
 
 async def main(connection):
-    app = await iterm2.async_get_app(connection)
-    window = app.current_terminal_window
-    tab = window.current_tab
-    session = tab.current_session
-    profile = await session.async_get_profile()
+    profile = await iterm2.Profile.async_get_default(connection)
     await profile.async_set_background_color(iterm2.Color(*RGB_COLOR))
 
 
