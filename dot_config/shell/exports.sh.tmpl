@@ -1,17 +1,19 @@
 # general env
-{{ $linux1PPath := "~/.1password/agent.sock" -}}
-{{ $macOS1PPath := "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" -}}
-{{ if and (eq .chezmoi.os "linux") (stat $linux1PPath) -}}
-export SSH_AUTH_SOCK={{ $linux1PPath }}
-{{ else if and (eq .chezmoi.os "darwin") (stat $macOS1PPath) -}}
-export SSH_AUTH_SOCK={{ $macOS1PPath }}
-{{- end }}
-export LANG=en_GB.UTF-8
 
-{{ if (eq .chezmoi.os "darwin") -}}
-# brew path
+{{ $1PSockPath := "" -}}
+{{ if eq .chezmoi.os "linux" -}}
+{{ $1PSockPath = "~/.1password/agent.sock" -}}
+{{ else if eq .chezmoi.os "darwin" -}}
+{{ $1PSockPath = "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock" -}}
+# homebrew
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 {{- end }}
+{{ if stat $1PSockPath -}}
+export SSH_AUTH_SOCK={{ $1PSockPath }}
+{{- end }}
+
+export EDITOR="nvim"
+export LANG=en_GB.UTF-8
 
 # custom scripts
 export PATH="$PATH:$HOME/.local/scripts:$HOME/.local/bin"

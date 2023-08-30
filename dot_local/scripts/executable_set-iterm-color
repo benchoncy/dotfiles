@@ -1,0 +1,21 @@
+#!/usr/bin/env python3
+# Set iTerm2 Background Color
+
+import iterm2
+import sys
+
+
+HEX_COLOR = sys.argv[1]
+RGB_COLOR = tuple(int(HEX_COLOR[i:i + 2], 16) for i in (0, 2, 4))
+
+
+async def main(connection):
+    app = await iterm2.async_get_app(connection)
+    window = app.current_terminal_window
+    tab = window.current_tab
+    session = tab.current_session
+    profile = await session.async_get_profile()
+    await profile.async_set_background_color(iterm2.Color(*RGB_COLOR))
+
+
+iterm2.run_until_complete(main)
