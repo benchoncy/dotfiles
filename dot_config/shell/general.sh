@@ -1,3 +1,0 @@
-# preferred editor
-EDITOR='nvim'
-
