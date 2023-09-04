@@ -1,0 +1,34 @@
+# Configuration for Alacritty, a cross-platform terminal emulator
+{{- $shell := "" -}}
+{{- $fontSize := "" -}}
+{{ if eq .chezmoi.os "linux" -}}
+{{ $shell = "/usr/bin/tmux" }}
+{{ $fontSize = "12" }}
+{{ else if eq .chezmoi.os "darwin" -}}
+{{ $shell = "/opt/homebrew/bin/tmux" }}
+{{ $fontSize = "17" }}
+{{- end }}
+---
+import:
+  - ~/.config/alacritty/theme.yml
+env:
+  TERM: xterm-256color
+shell:
+  program: {{ $shell }}
+  args:
+    - new-session
+    - -A
+    - -D
+    - -s
+    - default
+window:
+  title: Terminal
+  dynamic_padding: true
+  padding:
+    x: 4
+selection:
+  save_to_clipboard: true
+font:
+  normal:
+    family: Hack Nerd Font Mono
+  size: {{ $fontSize }}
