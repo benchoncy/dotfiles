@@ -1,11 +1,8 @@
 # Configuration for Alacritty, a cross-platform terminal emulator
-{{- $shell := "" -}}
 {{- $fontSize := "" -}}
 {{ if eq .chezmoi.os "linux" -}}
-{{ $shell = "/usr/bin/tmux" }}
 {{ $fontSize = "12" }}
 {{ else if eq .chezmoi.os "darwin" -}}
-{{ $shell = "/opt/homebrew/bin/tmux" }}
 {{ $fontSize = "17" }}
 {{- end }}
 ---
@@ -14,13 +11,7 @@ import:
 env:
   TERM: xterm-256color
 shell:
-  program: {{ $shell }}
-  args:
-    - new-session
-    - -A
-    - -D
-    - -s
-    - default
+  program: /bin/zsh
 window:
   title: Terminal
   dynamic_padding: true
