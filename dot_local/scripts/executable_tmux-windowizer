@@ -28,7 +28,7 @@ if [[ $# -eq 1 ]]; then
     project=$1
 else
     project=$(find ~/Projects -mindepth 1 -maxdepth 1 -type d \
-        | fzf --print-query --prompt="Project > ")
+        | fzf --print-query --prompt="Project > " | tail -1 | xargs)
 fi
 if [[ -z $project ]]; then
     exit 0
