@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Finds assigned jira tickets and optionally opens tickets in the browser
+
+
+help() {
+    echo "usage: $0 [-hc]"
+    echo "  -h: help"
+    echo "  -c: open jira ticket in default browser"
+    exit 0
+}
+
+while getopts 'hc' arg; do
+    case "$arg" in
+        h) help;;
+        c) console_mode=true;;
+    esac
+done
+
+# Check jira cli is installed
+if ! command -v jira &> /dev/null
+then
+    echo "jira cli could not be found!"
+    echo "Please install jira cli: https://github.com/ankitpokhrel/jira-cli"
+    exit 1
+fi
+
+# Get jira tickets assigned to me
+jira_ticket=$(jira issue list \
+    -q 'assignee = currentUser() AND resolution = Unresolved AND project IS NOT EMPTY' \
+    --plain \
+    --no-headers \
+    --columns key,summary \
+    | fzf --prompt="Ticket > " --print-query | awk '{print $1}' | xargs)
+
+if [ -z "$jira_ticket" ]
+then
+    exit 0
+fi
+
+if [ -n "$console_mode" ]; then
+    jira open $jira_ticket > /dev/null
+else
+    echo "$jira_ticket"
+fi

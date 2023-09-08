@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# Adapted from ThePrimeagen (https://github.com/ThePrimeagen/.dotfiles)
+# Manages tmux windows where each window is a project directory
+
+
+help() {
+    echo "usage: $0 [-h] [-s session]"
+    echo "  -h: help"
+    echo "  -s: session name"
+    exit 0
+}
+while getopts 'hs:' arg; do
+    case "$arg" in
+        h) help;;
+        s) session_name=$OPTARG;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+# if no session name, use current session
+if [[ -z $session_name ]]; then
+    session_name=$(tmux display-message -p '#S')
+fi
+
+# if no project directory, get project directory
+if [[ $# -eq 1 ]]; then
+    project=$1
+else
+    project=$(find ~/Projects -mindepth 1 -maxdepth 1 -type d \
+        | fzf --print-query --prompt="Project > ")
+fi
+if [[ -z $project ]]; then
+    exit 0
+fi
+
+project_name=$(basename "$project" | tr . _)
+
+tmux new-window -t "$session_name" -n "$project_name" -c "$project"
