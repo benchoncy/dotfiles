@@ -2,12 +2,22 @@
 # Adapted from ThePrimeagen (https://github.com/ThePrimeagen/.dotfiles)
 # Manages tmux sessions named by ticket/task number by default
 
+tabs=$(for i in {1..11}; do printf "\t"; done)
 
 if [[ $# -eq 1 ]]; then
     session_name=$1
 else
     # if no session name, get ticket number
-    session_name=$(jira-finder)
+    jira_tickets=$(jira issue list \
+        -q 'assignee = currentUser() AND resolution = Unresolved AND project IS NOT EMPTY' \
+        --plain \
+        --no-headers \
+        --columns key,summary 2> /dev/null)
+    tmux_sessions=$(tmux list-sessions -F "#S\t\ttmux session - #{session_windows} windows, created: #{t:session_created}#{?session_attached, (attached),}" 2> /dev/null)
+    session_options=$(printf "$tmux_sessions\n$jira_tickets")
+    session_name=$(fzf --prompt="Session > " \
+        --header="Note: selecting a ticket with an existing session will open that session." \
+        --print-query <<< $session_options | awk '{print $1}' | tail -1 | xargs echo)
 fi
 
 if [[ -z $session_name ]]; then
@@ -22,13 +32,13 @@ if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
     exit 0
 fi
 
-# if in a tmux session, create one and switch to it
+# if in a tmux session, create one and switch to it; if it doesn't exist
 if ! tmux has-session -t=$session_name 2> /dev/null; then
     tmux new-session -ds $session_name
     tmux-windowizer -s $session_name
     # Remove default window
-    tmux swap-window -t $session_name:1 -s $session_name:2
-    tmux kill-window -t $session_name:2
+    tmux kill-window -t $session_name:1
+    tmux move-window -r -s $session_name
 fi
 
 tmux switch-client -t $session_name
