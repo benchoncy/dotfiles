@@ -13,3 +13,7 @@
   type: archive
   url: https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.tar.xz
   exclude: ["**/LICENSE", "**/*.md"]
+
+".tmux/plugins/tpm":
+  type: git-repo
+  url: https://github.com/tmux-plugins/tpm
