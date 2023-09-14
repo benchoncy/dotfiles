@@ -13,12 +13,12 @@ alias gac='assume $(aws configure list-profiles | fzf) -c' # [g]ranted [a]ssume 
 alias gat='assume $(aws configure list-profiles | fzf) -t' # [g]ranted [a]ssume [t]erminal
 
 # Jira
-alias jf="jira issue list \
-    -q 'assignee = currentUser() AND resolution = Unresolved AND project IS NOT EMPTY' \
+alias jf='jira open $(jira issue list \
+    -q "assignee = currentUser() AND resolution = Unresolved AND project IS NOT EMPTY" \
     --plain \
     --no-headers \
     --columns key,summary \
-    | fzf | jira open > /dev/null"
+    | fzf) > /dev/null'
 function ja() {
     jira issue assign $1 ${2:-$(jira me)}
 }
