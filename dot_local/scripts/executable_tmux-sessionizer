@@ -2,19 +2,29 @@
 # Adapted from ThePrimeagen (https://github.com/ThePrimeagen/.dotfiles)
 # Manages tmux sessions named by ticket/task number by default
 
-tabs=$(for i in {1..11}; do printf "\t"; done)
-
 if [[ $# -eq 1 ]]; then
     session_name=$1
 else
     # if no session name, get ticket number
-    jira_tickets=$(jira issue list \
-        -q 'assignee = currentUser() AND resolution = Unresolved AND project IS NOT EMPTY' \
-        --plain \
-        --no-headers \
-        --columns key,summary 2> /dev/null)
-    tmux_sessions=$(tmux list-sessions -F "#S\t\ttmux session - #{session_windows} windows, created: #{t:session_created}#{?session_attached, (attached),}" 2> /dev/null)
-    session_options=$(printf "$tmux_sessions\n$jira_tickets")
+    session_options=""
+    # if jira cli is installed, get tickets assigned to user
+    if [[ -x $(command -v jira) ]]; then
+        session_options+=$(jira issue list \
+            -q 'assignee = currentUser() AND resolution = Unresolved AND project IS NOT EMPTY' \
+            --plain \
+            --no-headers \
+            --columns key,summary 2> /dev/null)
+        session_options+="\n"
+    fi
+    # add tmux sessions to options
+    tmux_sessions=$(tmux list-sessions -F "#S|tmux session - #{session_windows} windows, created: #{t:session_created}#{?session_attached, (attached),}" 2> /dev/null)
+    while read session; do
+        name=$(echo $session | cut -d'|' -f1)
+        description=$(echo $session | cut -d'|' -f2)
+        session_options+=$(printf "%-16s%s" "$name" "$description")
+        session_options+="\n"
+    done <<< $(echo "$tmux_sessions")
+    session_options=$(printf "$session_options" | sort -k 1 | uniq)
     session_name=$(fzf --prompt="Session > " \
         --header="Note: selecting a ticket with an existing session will open that session." \
         --print-query <<< $session_options | awk '{print $1}' | tail -1 | xargs echo)
