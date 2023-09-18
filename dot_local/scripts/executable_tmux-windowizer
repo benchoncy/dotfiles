@@ -9,7 +9,7 @@ help() {
     echo "  -s: session name"
     exit 0
 }
-while getopts 'hs:' arg; do
+while getopts 'hs:p' arg; do
     case "$arg" in
         h) help;;
         s) session_name=$OPTARG;;
