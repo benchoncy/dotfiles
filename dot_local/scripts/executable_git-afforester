@@ -45,8 +45,7 @@ def plant(args):
     # Checkout the repo as a bare repo
     os.chdir(args.projects_path)
     os.system(
-        f'git clone --bare {args.repo_url} {local_repo_name}/{BARE_FOLDER}'
-        ' &> /dev/null')
+        f'git clone --bare {args.repo_url} {local_repo_name}/{BARE_FOLDER}')
 
     # Create a worktree with the default branch name
     os.chdir(f'{args.projects_path}/{local_repo_name}/{BARE_FOLDER}')
