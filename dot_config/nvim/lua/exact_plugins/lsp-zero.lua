@@ -20,6 +20,18 @@ return {
 
         lsp.on_attach(function(_, bufnr)
             lsp.default_keymaps({buffer = bufnr})
+
+            -- Enable wrap for markdown, text, and tex files
+            if vim.bo.filetype == 'markdown'
+                or vim.bo.filetype == 'text'
+                or vim.bo.filetype == 'tex'
+                then
+                vim.wo.wrap = true
+                vim.wo.linebreak = true
+            else
+                vim.wo.wrap = false
+                vim.wo.linebreak = false
+            end
         end)
 
         -- Configure lua language server for neovim
