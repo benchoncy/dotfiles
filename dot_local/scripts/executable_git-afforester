@@ -2,115 +2,135 @@
 # Inspired by tmux-sessionizer/tmux-windowizer
 # Manages local git repos and git worktrees
 
-import argparse
+import fire
 import os
 
+
 # Environment variables
-PROJECTS_SUFFIX = os.environ.get('GIT_WORKTREE_PROJECTS_SUFFIX', '.tree')
+PROJECTS_SUFFIX = os.environ.get('GAF__PROJECTS_SUFFIX', '.tree')
 PROJECTS_PATH = os.environ.get(
-    'GIT_WORKTREE_PROJECTS_PATH', os.path.expanduser('~/projects'))
+    'GAF__PROJECTS_PATH', os.path.expanduser('~/projects'))
 BARE_FOLDER = os.environ.get(
-    'GIT_WORKTREE_BARE_PATH', 'bare.git')
+    'GAF__BARE_PATH', 'bare.git')
 
 
-def add_worktree(project_path, branch_name):
-    if not os.path.isdir(f'{project_path}/{branch_name}'):
-        os.chdir(f'{project_path}/{BARE_FOLDER}')
-        os.system(f'git worktree add ../{branch_name} &> /dev/null')
-    # Output the path to the worktree
-    print(f'{project_path}/{branch_name}')
+class GitAfforester:
+    """
+    Git Afforester is a tool for managing local git repos and git worktrees.
+
+    Environment variables:
+        GAF__PROJECTS_SUFFIX: The suffix indicating a git repo is managed by
+            Git Afforester. Defaults to '.tree'.
+        GAF__PROJECTS_PATH: The path to the folder containing the git repos.
+        GAF__BARE_PATH: The path to the bare folder inside the git repos.
+    """
+
+    def __init__(self):
+        self.worktree = Worktree()
+
+    def plant(self, repo_url):
+        """
+        Clones a git repo to the project folder and creates a worktree for the
+        default branch.
+        """
+
+        # Check if the repo url is valid
+        if not repo_url.endswith('.git'):
+            print('Invalid git repo url:', repo_url)
+            return
+
+        owner, repo_name = repo_url.replace(':', '/').split('/')[-2:]
+        local_repo_name = f'{owner}-{repo_name}' \
+            .replace('_', '-') \
+            .replace('.git', PROJECTS_SUFFIX)
+
+        # Checkout the repo as a bare repo
+        os.chdir(PROJECTS_PATH)
+        os.system(
+            f'git clone --bare {repo_url} {local_repo_name}/{BARE_FOLDER}')
+
+        # Create a worktree with the default branch name
+        os.chdir(f'{PROJECTS_PATH}/{local_repo_name}/{BARE_FOLDER}')
+        default_branch_name = os.popen('git branch --show-current') \
+            .read().strip()
+        self.worktree.add(
+            f'{PROJECTS_PATH}/{local_repo_name}',
+            default_branch_name
+        )
+
+    def uproot(self, project_name):
+        """
+        Deletes a git repo and all of its worktrees.
+        """
+        os.system(f'rm -rf {PROJECTS_PATH}/{project_name}{PROJECTS_SUFFIX}')
 
 
-def remove_worktree(project_path, branch_name):
-    os.chdir(f'{project_path}/{BARE_FOLDER}')
-    os.system(f'git worktree remove ../{branch_name} &> /dev/null')
+class Worktree:
+    """
+    Manages git worktrees.
+    """
+
+    def add(self, project_name, branch_name, pull=True):
+        """
+        Creates a worktree for the given branch name.
+        """
+
+        repo_path = f'{PROJECTS_PATH}/{project_name}{PROJECTS_SUFFIX}'
+        branch_path = f'{repo_path}/{branch_name}'
+        # Create the worktree if it doesn't exist
+        if not os.path.isdir(branch_path):
+            os.chdir(f'{repo_path}/{BARE_FOLDER}')
+            os.system(f'git worktree add ../{branch_name} &> /dev/null')
+            if pull:
+                os.chdir(branch_path)
+                os.system('git pull &> /dev/null')
+        # Output the path to the worktree
+        print(branch_path)
+
+    def remove(self, project_name, branch_name):
+        """
+        Removes a worktree for the given branch name.
+        """
+        repo_path = f'{PROJECTS_PATH}/{project_name}{PROJECTS_SUFFIX}'
+        os.chdir(f'{repo_path}/{BARE_FOLDER}')
+        os.system(f'git worktree remove ../{branch_name} &> /dev/null')
+
+    def prune(self, age=30):
+        """
+        Removes all worktrees that have been deleted from the repo or are older
+        than the given age in days.
+        """
+        for project_name in get_projects():
+            repo_path = f'{PROJECTS_PATH}/{project_name}{PROJECTS_SUFFIX}'
+            # Remove worktrees that have been deleted from the repo
+            os.chdir(f'{repo_path}/{BARE_FOLDER}')
+            os.system('git worktree prune &> /dev/null')
+            # Remove worktrees older than the given age
+            os.chdir(repo_path)
+            # Get list of worktrees older than the given age
+            worktrees = os.popen(
+                f'find . -maxdepth 1 -type d -mtime +{age}'
+            ).read().split()
+            # Remove the worktrees
+            for worktree in worktrees:
+                # Skip the bare folder and master/main branch
+                if worktree.endswith(BARE_FOLDER) \
+                        or worktree.endswith('master') \
+                        or worktree.endswith('main'):
+                    continue
+                os.system(f'rm -rf {worktree}')
 
 
-def plant(args):
-    # Check if the repo url is valid
-    if not args.repo_url.endswith('.git'):
-        print('Invalid git repo url:', args.repo_url)
-        return
-
-    # Check if the projects path is valid
-    if not os.path.isdir(args.projects_path):
-        print('Invalid projects path:', args.projects_path)
-        return
-
-    owner, repo_name = args.repo_url.replace(':', '/').split('/')[-2:]
-    local_repo_name = f'{owner}-{repo_name}' \
-        .replace('_', '-') \
-        .replace('.git', PROJECTS_SUFFIX)
-
-    # Checkout the repo as a bare repo
-    os.chdir(args.projects_path)
-    os.system(
-        f'git clone --bare {args.repo_url} {local_repo_name}/{BARE_FOLDER}')
-
-    # Create a worktree with the default branch name
-    os.chdir(f'{args.projects_path}/{local_repo_name}/{BARE_FOLDER}')
-    default_branch_name = os.popen('git branch --show-current').read().strip()
-    add_worktree(
-        f'{args.projects_path}/{local_repo_name}',
-        default_branch_name)
+def get_projects():
+    """
+    Returns a list of all projects managed by Git Afforester.
+    """
+    projects = []
+    for project_name in os.listdir(PROJECTS_PATH):
+        if project_name.endswith(PROJECTS_SUFFIX):
+            projects.append(project_name.replace(PROJECTS_SUFFIX, ''))
+    return projects
 
 
-def parent_dir():
-    return os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-
-
-def worktree(args):
-    # Check if the repo path is valid
-    if not os.path.isdir(args.repo_path):
-        print('Invalid git repo path:', args.repo_path)
-        return
-
-    # Check if the repo path is set up for worktrees
-    if not args.repo_path.endswith(PROJECTS_SUFFIX) or \
-       not os.path.isdir(f'{args.repo_path}/{BARE_FOLDER}'):
-        print('Git repo path is not set up for worktrees:', args.repo_path)
-        return
-
-    if args.add:
-        add_worktree(args.repo_path, args.branch_name)
-    elif args.delete:
-        remove_worktree(args.repo_path, args.branch_name)
-
-
-# Create the main parser
-parser = argparse.ArgumentParser(
-    description='Manage local git repos and git worktrees')
-# Optional arguments
-parser.add_argument(
-    '-p', '--projects-path',
-    default=PROJECTS_PATH,
-    help='Path to the projects directory'
-)
-
-# Create subparsers for the different commands
-# Create plant sub command parser
-subparsers = parser.add_subparsers(
-    dest='plant', help='Commands for managing local git repos and worktrees')
-parser_plant = subparsers.add_parser(
-    'plant', help='Clones a bare git repo and sets up worktrees'
-)
-parser_plant.add_argument('repo_url', help='URL of the git repo to clone')
-parser_plant.set_defaults(func=plant)
-
-# Create worktree sub command parser
-parser_worktree = subparsers.add_parser(
-    'worktree', help='Manages repo worktrees')
-parser_worktree.add_argument(
-    '-r', '--repo-path', help='Path to the git repo', default=parent_dir())
-parser_worktree.add_argument(
-    'branch_name',
-    help='Name of the branch to switch to or create a new worktree for')
-worktree_group = parser_worktree.add_mutually_exclusive_group(required=True)
-worktree_group.add_argument(
-    '-a', '--add', action='store_true', help='Add a new worktree')
-worktree_group.add_argument(
-    '-d', '--delete', action='store_true', help='Delete a worktree')
-parser_worktree.set_defaults(func=worktree)
-
-args = parser.parse_args()
-args.func(args)
+if __name__ == '__main__':
+    fire.Fire(GitAfforester)

@@ -39,7 +39,7 @@ project_name=$(basename "$project")
 # and use git-afforester to set worktree
 if [[ $project_name == *.tree ]]; then
     project_name=${project_name%.tree}
-    project=$(git-afforester worktree -a -r $project $session_name)
+    project=$(git-afforester worktree add $project_name $session_name)
 fi
 project_name=$(echo $project_name | sed 's/\./_/g')
 
