@@ -15,8 +15,14 @@ else
 fi
 reset_color="%f"
 
+function git_remote_name() {
+  local remote_name="$(__git_prompt_git config --local --get remote.origin.url | sed -e 's/.*\///' -e 's/.git$//')"
+
+  echo "$remote_name"
+}
+
 function git_repo_path() {
-  local git_repo_name="$(git_repo_name)"
+  local git_repo_name="$(git_remote_name)"
   local git_relative_path="$(__git_prompt_git rev-parse --show-prefix 2>/dev/null)"
   local git_repo_path="${git_repo_name}/${git_relative_path}"
 
