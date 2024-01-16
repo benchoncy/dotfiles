@@ -54,7 +54,7 @@ class GitAfforester:
         default_branch_name = os.popen('git branch --show-current') \
             .read().strip()
         self.worktree.add(
-            f'{PROJECTS_PATH}/{local_repo_name}',
+            local_repo_name,
             default_branch_name
         )
 
@@ -69,13 +69,23 @@ class Worktree:
     """
     Manages git worktrees.
     """
+    def __validate_project_name(self, project_name):
+        """
+        Validates the given project name.
+        """
+        if not project_name.endswith(PROJECTS_SUFFIX):
+            raise Exception(
+                f'Invalid project name: {project_name}. '
+                f'Project name must end with {PROJECTS_SUFFIX}.'
+            )
 
     def add(self, project_name, branch_name, pull=True):
         """
         Creates a worktree for the given branch name.
         """
+        self.__validate_project_name(project_name)
 
-        repo_path = f'{PROJECTS_PATH}/{project_name}{PROJECTS_SUFFIX}'
+        repo_path = f'{PROJECTS_PATH}/{project_name}'
         branch_path = f'{repo_path}/{branch_name}'
         # Create the worktree if it doesn't exist
         if not os.path.isdir(branch_path):
@@ -91,6 +101,8 @@ class Worktree:
         """
         Removes a worktree for the given branch name.
         """
+        self.__validate_project_name(project_name)
+
         repo_path = f'{PROJECTS_PATH}/{project_name}{PROJECTS_SUFFIX}'
         os.chdir(f'{repo_path}/{BARE_FOLDER}')
         os.system(f'git worktree remove ../{branch_name} &> /dev/null')
