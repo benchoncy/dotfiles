@@ -17,3 +17,13 @@
 ".tmux/plugins/tpm":
   type: git-repo
   url: https://github.com/tmux-plugins/tpm
+
+".git-completion.bash":
+  type: file
+  url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash
+  refreshPeriod: 168h
+
+".git-completion.zsh":
+  type: file
+  url: https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.zsh
+  refreshPeriod: 168h

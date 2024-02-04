@@ -8,11 +8,12 @@ HIST_STAMPS="yyyy-mm-dd"
 
 zstyle ':omz:update' mode disabled
 
+# enable completions
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
+
 # enable plugins
-plugins=(
-  git
-  zsh-autosuggestions
-)
+plugins=(zsh-autosuggestions)
 
 source $HOME/.config/shell/init.sh
 source $ZSH/oh-my-zsh.sh

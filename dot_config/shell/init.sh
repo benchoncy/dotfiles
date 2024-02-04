@@ -4,7 +4,9 @@ SHELL_HOME=$HOME/.config/shell
 
 source $SHELL_HOME/exports.sh
 source $SHELL_HOME/python.sh
+source $SHELL_HOME/go.sh
 source $SHELL_HOME/aliases.sh
+source $SHELL_HOME/autocompletions.sh
 
 # Start tmux
 if command -v tmux &> /dev/null && \
