@@ -3,10 +3,8 @@
 SHELL_HOME=$HOME/.config/shell
 
 source $SHELL_HOME/exports.sh
-source $SHELL_HOME/python.sh
-source $SHELL_HOME/go.sh
 source $SHELL_HOME/aliases.sh
-source $SHELL_HOME/autocompletions.sh
+for f in $SHELL_HOME/tools/*; do source $f; done
 
 # Start tmux
 if command -v tmux &> /dev/null && \
