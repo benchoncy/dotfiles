@@ -1,0 +1,24 @@
+# Configuration for Alacritty, a cross-platform terminal emulator
+import = ["/Users/bstuart/.config/alacritty/theme.toml"]
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 17
+
+[font.normal]
+family = "Hack Nerd Font Mono"
+
+[selection]
+save_to_clipboard = true
+
+[shell]
+program = "/bin/zsh"
+
+[window]
+dynamic_padding = true
+title = "Terminal"
+
+[window.padding]
+x = 4
