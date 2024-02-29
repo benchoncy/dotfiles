@@ -12,6 +12,8 @@ PROJECTS_PATH = os.environ.get(
     'GAF__PROJECTS_PATH', os.path.expanduser('~/projects'))
 BARE_FOLDER = os.environ.get(
     'GAF__BARE_PATH', 'bare.git')
+PROTECTED_BRANCHES = os.environ.get(
+    'GAF__PROTECTED_BRANCHES', 'main,master').split(",")
 
 
 class GitAfforester:
@@ -69,6 +71,7 @@ class Worktree:
     """
     Manages git worktrees.
     """
+
     def __validate_project_name(self, project_name):
         """
         Validates the given project name.
@@ -94,6 +97,7 @@ class Worktree:
             if pull:
                 os.chdir(branch_path)
                 os.system('git pull &> /dev/null')
+
         # Output the path to the worktree
         print(branch_path)
 
@@ -125,10 +129,9 @@ class Worktree:
             ).read().split()
             # Remove the worktrees
             for worktree in worktrees:
+                basename = os.path.basename(worktree)
                 # Skip the bare folder and master/main branch
-                if worktree.endswith(BARE_FOLDER) \
-                        or worktree.endswith('master') \
-                        or worktree.endswith('main'):
+                if basename == BARE_FOLDER or basename in PROTECTED_BRANCHES:
                     continue
                 os.system(f'rm -rf {worktree}')
 
