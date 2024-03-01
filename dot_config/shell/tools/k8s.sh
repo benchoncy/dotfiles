@@ -18,17 +18,12 @@ function kdebug() { # [k]ubectl [debug]
   kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
 }
 
-function kep() { # [k]ubectl [exec] into [p]od
+function kexec() { # [k]ubectl [exec] into [p]od
   pod=$(kubectl get pods -o name | fzf)
   kubectl exec -it $pod -- /bin/sh
 }
 
-function kdp() {  # [k]ubectl [d]escribe [p]od
+function klogs() {  # [k]ubectl [l]ogs [p]od
   pod=$(kubectl get pods -o name | fzf)
-  kubectl describe $pod
-}
-
-function klp() {  # [k]ubectl [l]ogs [p]od
-  pod=$(kubectl get pods -o name | fzf)
-  kubectl logs $pod
+  kubectl logs $pod -w
 }
