@@ -1,6 +1,6 @@
 -- LSP zero and associated plugin(s) configuration
 -- Purpose: Provides language server protocol integration and autocompletion.
-
+-- TODO: Update this config compared to kickstart.nvim
 
 return {
     'VonHeikemen/lsp-zero.nvim',
