@@ -71,7 +71,8 @@ return {
             ensure_installed = {
                 'lua_ls', -- Lua language server
                 'bashls', -- Bash language server
-                'ruff_lsp', -- Python language server
+                'ruff_lsp', -- Python language server and formatter
+                'pyright', -- Python static type checker
                 'gopls', -- Go language server
                 'terraformls', -- Terraform language server
                 'rust_analyzer', -- Rust language server
