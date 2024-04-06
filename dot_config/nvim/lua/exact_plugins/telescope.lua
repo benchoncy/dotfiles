@@ -30,19 +30,19 @@ return {
         pcall(require('telescope').load_extension, 'ui-select')
 
         local builtin = require('telescope.builtin')
-        vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [f]iles' })
-        vim.keymap.set('n', '<leader>fg', builtin.git_files, { desc = '[F]ind [g]it files' })
-        vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]ind [b]uffers' })
-        vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [h]elp tags' })
-        vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [k]eymaps' })
-        vim.keymap.set('n', '<leader>fl', builtin.live_grep, { desc = '[F]ind by [l]ive grep' })
-        vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [d]iagnostics' })
-        vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind [r]ecent files' })
+        vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [F]iles' })
+        vim.keymap.set('n', '<leader>fg', builtin.git_files, { desc = '[F]ind [G]it files' })
+        vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]ind [G]uffers' })
+        vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp tags' })
+        vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
+        vim.keymap.set('n', '<leader>fl', builtin.live_grep, { desc = '[F]ind by [L]ive grep' })
+        vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
+        vim.keymap.set('n', '<leader>fr', builtin.oldfiles, { desc = '[F]ind [R]ecent files' })
         vim.keymap.set('n', '<leader>fc', function()
             builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
                 winblend = 10,
                 previewer = false,
             })
-        end, { desc = '[F]ind in [c]urrent buffer' })
+        end, { desc = '[F]ind in [C]urrent buffer' })
     end,
 }
