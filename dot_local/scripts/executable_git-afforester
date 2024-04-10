@@ -5,7 +5,6 @@
 import fire
 import os
 
-
 # Environment variables
 PROJECTS_SUFFIX = os.environ.get("GAF__PROJECTS_SUFFIX", ".tree")
 PROJECTS_PATH = os.environ.get("GAF__PROJECTS_PATH", os.path.expanduser("~/projects"))
