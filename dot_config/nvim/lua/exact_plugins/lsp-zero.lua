@@ -13,6 +13,7 @@ return {
         'hrsh7th/nvim-cmp',
         'hrsh7th/cmp-nvim-lsp',
         'L3MON4D3/LuaSnip',
+        'zbirenbaum/copilot-cmp',
         -- NeoVim Development
         { 'folke/neodev.nvim', opts = {} },
     },
@@ -57,6 +58,7 @@ return {
             async = false,
             timeout_ms = 10000,
           },
+          -- The servers that should be enabled for formatting on save, formatted as {[server_name] = {filetypes}}
           servers = {
             ['rust_analyzer'] = {'rust'},
             ['gopls'] = {'go'},
@@ -93,17 +95,19 @@ return {
 
         cmp.setup({
             sources = {
-                {name = 'nvim_lsp'},
+                -- Copilot Source
+                {name = "copilot", group_index = 2},
+                {name = 'nvim_lsp', group_index = 2},
+                {name = 'path', group_index = 2},
                 {name = 'nvim_lua'},
                 {name = 'luasnip'},
-                {name = 'path'},
                 {name = 'buffer', keyword_length = 3},
             },
             formatting = lsp_zero.cmp_format({details = false}),
             mapping = cmp.mapping.preset.insert({
                 ['<C-p>'] = cmp.mapping.select_prev_item(cmp_select),
                 ['<C-n>'] = cmp.mapping.select_next_item(cmp_select),
-                ['<CR>'] = cmp.mapping.confirm({ select = true }),
+                ['<CR>'] = cmp.mapping.confirm({ select = false }), -- Confirm completion, select = true will cause <CR> to select the first completion item
                 ['<C-Space>'] = cmp.mapping.complete(),
             }),
             snippet = {

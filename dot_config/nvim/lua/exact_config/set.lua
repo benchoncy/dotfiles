@@ -7,9 +7,6 @@ vim.opt.background = "dark"
 vim.opt.number = true
 vim.opt.relativenumber = true
 
--- Enable mouse support, mostly for resizing windows.
-vim.opt.mouse = "a"
-
 -- Don't show mode as the statusline will show it.
 vim.opt.showmode = false
 
