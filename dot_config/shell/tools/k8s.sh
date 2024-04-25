@@ -14,16 +14,16 @@ if command -v kubectl &> /dev/null; then
   complete -o default -F __start_kubectl k # extended completion to alias
 fi
 
-function kdebug() { # [k]ubectl [debug]
+function kdebug() { # [k]ubectl run [debug] pod
   kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
 }
 
-function kexec() { # [k]ubectl [exec] into [p]od
+function kexec() { # [k]ubectl [exec] into pod
   pod=$(kubectl get pods -o name | fzf)
   kubectl exec -it $pod -- /bin/sh
 }
 
-function klogs() {  # [k]ubectl [l]ogs [p]od
+function klogs() {  # [k]ubectl [logs]
   pod=$(kubectl get pods -o name | fzf)
-  kubectl logs $pod -w
+  kubectl logs $pod -f
 }
