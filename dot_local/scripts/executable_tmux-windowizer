@@ -27,7 +27,7 @@ fi
 if [[ $# -eq 1 ]]; then
     project=$1
 else
-    project=$(find ~/Projects -mindepth 1 -maxdepth 1 -type d \
+    project=$(find ~/Projects -mindepth 3 -maxdepth 3 -type d \
         | fzf --print-query --prompt="Project > " | tail -1 | xargs)
 fi
 if [[ -z $project ]]; then
@@ -38,7 +38,7 @@ project_name=$(basename "$project")
 # if project name ends in .tree, use the name without the extension
 # and use git-afforester to set worktree
 if [[ $project_name == *.tree ]]; then
-    project=$(git-afforester worktree add $project_name $session_name)
+    project=$(git-afforester worktree add $session_name -p $project )
 fi
 
 tmux new-window -t "$session_name" -n "$project_name" -c "$project"
