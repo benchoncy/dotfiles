@@ -1,60 +1,35 @@
 #!/usr/bin/env python3
-# Inspired by tmux-sessionizer/tmux-windowizer
-# Manages local git repos and git worktrees
+# Git Afforester
+# Inspired by tmux-sessionizer/tmux-windowizer for tmux, Git Afforester aims
+# to provide a simple and opinionated way to manage git based projects.
 
 import fire
 import os
 
 # Environment variables
-PROJECTS_SUFFIX = os.environ.get("GAF__PROJECTS_SUFFIX", ".tree")
 PROJECTS_PATH = os.environ.get("GAF__PROJECTS_PATH", os.path.expanduser("~/Projects"))
-BARE_FOLDER = os.environ.get("GAF__BARE_PATH", "bare.git")
+PROJECTS_SUFFIX = os.environ.get("GAF__PROJECTS_SUFFIX", ".tree")
+BARE_FOLDER = os.environ.get("GAF__BARE_FOLDER", "bare.git")
 
 
-class GitAfforester:
+def plant(repo_uri):
     """
-    Git Afforester is a tool for managing local git repos and git worktrees.
-
-    Environment variables:
-        GAF__PROJECTS_SUFFIX: The suffix indicating a git repo is managed by
-            Git Afforester. Defaults to '.tree'.
-        GAF__PROJECTS_PATH: The path to the folder containing the git repos.
-        GAF__BARE_PATH: The path to the bare folder inside the git repos.
+    Adds a new project to the forest.
     """
 
-    def __init__(self, project=None):
-        self.project = Project(project)
-        self.worktree = Worktree(project=self.project)
-
-    def plant(self, repo_uri):
-        """
-        Clones a git repo to the project folder and creates a worktree for the
-        default branch.
-        """
-
-        self.project.uri = repo_uri
-        # Checkout the repo as a bare repo
-        os.system(f"git clone --bare {repo_uri} {self.project.full_path}/{BARE_FOLDER}")
-
-        # Create a worktree with the default branch name
-        os.chdir(f"{self.project.full_path}/{BARE_FOLDER}")
-        default_branch_name = os.popen("git branch --show-current").read().strip()
-        self.worktree.add(default_branch_name)
-
-    def uproot(self):
-        """
-        Deletes a git repo and all of its worktrees.
-        """
-        os.system(f"rm -rf {self.project.full_path}")
+    project = Project()
+    project.uri = repo_uri
+    # Checkout the repo as a bare repo
+    os.system(f"git clone --bare {repo_uri} {project.full_path}/{BARE_FOLDER}")
 
 
 class Worktree:
     """
-    Manages git worktrees.
+    Manages project git worktrees.
     """
 
     def __init__(self, project):
-        self.project = project
+        self.project = Project(project)
 
     def add(self, branch, pull=True):
         """
@@ -63,11 +38,11 @@ class Worktree:
         branch_path = f"{self.project.full_path}/{branch}"
         # Create the worktree if it doesn't exist
         if not os.path.isdir(branch_path):
-            os.chdir(f"{self.project.full_path}/{BARE_FOLDER}")
-            os.system(f"git worktree add ../{branch} &> /dev/null")
+            os.system(
+                f"cd {self.project.full_path}/{BARE_FOLDER} && git worktree add ../{branch} &> /dev/null"
+            )
             if pull:
-                os.chdir(branch_path)
-                os.system("git pull &> /dev/null")
+                os.system(f"cd {branch_path} && git pull &> /dev/null")
 
         # Output the path to the worktree
         print(branch_path)
@@ -77,16 +52,18 @@ class Worktree:
         Removes a worktree for the given branch name.
         """
         if os.path.isdir(f"{self.project.full_path}/{branch}"):
-            os.chdir(f"{self.project.full_path}/{BARE_FOLDER}")
-            os.system(f"git worktree remove ../{branch} &> /dev/null")
+            os.system(
+                f"cd {self.project.full_path}/{BARE_FOLDER} && git worktree remove ../{branch} &> /dev/null"
+            )
 
 
 class Project:
-    def __init__(self, path):
+    def __init__(self, path=None):
         self.domain = None
         self.owner = None
         self.repo = None
         self.local_path = None
+        self._uri = None
         if path:
             self.path = path
 
@@ -135,4 +112,9 @@ class Project:
 
 
 if __name__ == "__main__":
-    fire.Fire(GitAfforester)
+    fire.Fire(
+        {
+            "plant": plant,
+            "worktree": Worktree,
+        }
+    )

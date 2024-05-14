@@ -38,7 +38,7 @@ project_name=$(basename "$project")
 # if project name ends in .tree, use the name without the extension
 # and use git-afforester to set worktree
 if [[ $project_name == *.tree ]]; then
-    project=$(git-afforester worktree add $session_name -p $project )
+    project=$(git-afforester worktree add $session_name --project $project )
 fi
 
 tmux new-window -t "$session_name" -n "$project_name" -c "$project"
