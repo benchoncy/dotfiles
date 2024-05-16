@@ -38,18 +38,6 @@ return {
             map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
             map('K', vim.lsp.buf.hover, 'Hover Documentation')
             map('<leader>lf', function() vim.lsp.buf.formatting({async = true, timeout = 10000}) end, '[L]anguage [F]ormat')
-
-            -- Enable wrap for markdown, text, and tex files
-            if vim.bo.filetype == 'markdown'
-                or vim.bo.filetype == 'text'
-                or vim.bo.filetype == 'tex'
-                then
-                vim.wo.wrap = true
-                vim.wo.linebreak = true
-            else
-                vim.wo.wrap = false
-                vim.wo.linebreak = false
-            end
         end)
 
         -- `format_on_save` should run only once, before the language servers are active.

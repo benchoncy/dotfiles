@@ -6,7 +6,7 @@ vim.g.maplocalleader = " "
 
 -- Add or override key mappings
 -- see `:help vim.keymap.set()` for more information
-vim.keymap.set("n", "<leader>e", ":Ex<CR>", { desc = 'Enter [E]x mode' })
+vim.keymap.set("n", "<leader>e", ":Oil<CR>", { desc = '[E]nter filesystem mode' })
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>', { desc = 'Clear search highlights' })
 
 -- Diagnostic keymaps
