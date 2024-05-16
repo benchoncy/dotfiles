@@ -1,15 +1,19 @@
 [user]
-	name = Ben Stuart
-	email = {{ .email }}
+    name = Ben Stuart
+    email = ben@benstuart.ie
 [core]
-	editor = nvim
-	autocrlf = input
+    editor = nvim
+    autocrlf = input
 [init]
-	defaultBranch = main
+    defaultBranch = main
 [pull]
-	rebase = true
+    rebase = true
 [push]
     autoSetupRemote = true
 [alias]
     hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
     af = !git-afforester
+{{ if .is_work -}}
+[includeIf "gitdir:~/projects/{{ .work_git_server }}"]
+    path = ~/.gitconfig-work
+{{ end -}}

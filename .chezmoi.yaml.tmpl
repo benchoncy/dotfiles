@@ -1,6 +1,10 @@
 ---
-{{ $email := promptStringOnce . "email" "What is your email address" -}}
+{{ $is_work := promptBoolOnce . "is_work" "Are you setting up a work environment" -}}
 secret:
   command: "op"
 data:
-  email: {{ $email | quote }}
+  is_work: {{ $is_work }}
+{{ if $is_work }}
+  work_email: {{ promptStringOnce . "work_email" "What is your workplace email address" }}
+  work_git_server: {{ promptStringOnce . "work_github_server" "What is your workplace git server domain name" }}
+{{ end }}
