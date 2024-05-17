@@ -1,7 +1,7 @@
 SHELL_NAME=$(basename $SHELL)
 
 alias g="git"
-alias gp="git push"
+alias gp="git pull && git push"
 alias gs="git status"
 alias ga="git add"
 alias gaa="git add ."
