@@ -3,6 +3,9 @@
 -- set background to dark, because I like it that way.
 vim.opt.background = "dark"
 
+-- set cmd height
+vim.opt.cmdheight = 1
+
 -- Set line numbers and relative line numbers as default as a visual aid.
 vim.opt.number = true
 vim.opt.relativenumber = true

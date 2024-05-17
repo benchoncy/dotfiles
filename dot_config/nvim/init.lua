@@ -1,5 +1,14 @@
 -- Neovim entrypoint, loads plugins and config.
 
+-- For best performance, ensure the following are installed:
+-- System packages
+-- - fzf
+-- - ripgrep
+-- - fd
+--
+-- Python packages:
+-- - neovim
+
 -- Load regular config
 require("config")
 
