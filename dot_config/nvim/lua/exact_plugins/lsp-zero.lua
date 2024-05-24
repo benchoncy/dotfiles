@@ -23,21 +23,21 @@ return {
         lsp_zero.on_attach(function(_, bufnr)
 
             local map = function(keys, func, desc)
-                vim.keymap.set('n', keys, func, { buffer = bufnr, desc = 'LSP: ' .. desc })
+                vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
             end
 
             -- Set keymaps for LSP
-            map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-            map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-            map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
-            map('gI', require('telescope.builtin').lsp_implementations, '[G]oto [I]mplementations')
+            map('gd', require('telescope.builtin').lsp_definitions, '[g]oto [d]efinition')
+            map('gD', vim.lsp.buf.declaration, '[g]oto [D]eclaration')
+            map('gr', require('telescope.builtin').lsp_references, '[g]oto [r]eferences')
+            map('gI', require('telescope.builtin').lsp_implementations, '[g]oto [I]mplementations')
             map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-            map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
-            map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
-            map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
-            map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction')
+            map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[d]ocument [s]ymbols')
+            map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[w]orkspace [s]ymbols')
+            map('<leader>rn', vim.lsp.buf.rename, '[r]e[n]ame')
+            map('<leader>ca', vim.lsp.buf.code_action, '[c]ode [a]ction')
             map('K', vim.lsp.buf.hover, 'Hover Documentation')
-            map('<leader>lf', function() vim.lsp.buf.formatting({async = true, timeout = 10000}) end, '[L]anguage [F]ormat')
+            map('<leader>lf', function() vim.lsp.buf.formatting({async = true, timeout = 10000}) end, '[l]anguage [f]ormat')
         end)
 
         -- `format_on_save` should run only once, before the language servers are active.

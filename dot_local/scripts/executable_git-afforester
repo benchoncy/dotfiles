@@ -3,8 +3,8 @@
 # Inspired by tmux-sessionizer/tmux-windowizer for tmux, Git Afforester aims
 # to provide a simple and opinionated way to manage git based projects.
 
-import fire
 import os
+import argparse
 
 # Environment variables
 PROJECTS_PATH = os.environ.get("GAF__PROJECTS_PATH", os.path.expanduser("~/Projects"))
@@ -111,10 +111,31 @@ class Project:
         return domain, owner, repo
 
 
-if __name__ == "__main__":
-    fire.Fire(
-        {
-            "plant": plant,
-            "worktree": Worktree,
-        }
+def main():
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest="command")
+
+    plant_parser = subparsers.add_parser("plant")
+    plant_parser.add_argument("repo_uri", help="The git repo uri to plant.")
+
+    worktree_parser = subparsers.add_parser("worktree")
+    worktree_parser.add_argument(
+        "action", help="The action to perform.", choices=["add", "remove"]
     )
+    worktree_parser.add_argument("branch", help="The branch to manage.")
+    worktree_parser.add_argument("-p", "--project", help="The project to manage.")
+
+    args = parser.parse_args()
+
+    if args.command == "plant":
+        plant(args.repo_uri)
+    elif args.command == "worktree":
+        worktree = Worktree(args.project)
+        if args.action == "add":
+            worktree.add(args.branch)
+        elif args.action == "remove":
+            worktree.remove(args.branch)
+
+
+if __name__ == "__main__":
+    main()
