@@ -2,3 +2,5 @@
 # ~/.bashrc
 
 source $HOME/.config/shell/init.sh
+
+eval "$(starship init bash)"
