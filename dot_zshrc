@@ -1,13 +1,29 @@
 #!/usr/bin/env zsh
 # ~/.zshrc
 
+# Enable history
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+
 # Enable autosuggestions
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#525869"
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # enable completions
 autoload -Uz compinit && compinit
 autoload bashcompinit && bashcompinit
 
+# Enable vi mode
+bindkey -v
+bindkey "^H" backward-delete-char
+bindkey "^?" backward-delete-char
+
+# Load the shared shell configuration
 source $HOME/.config/shell/init.sh
 
+# Load fzf integration
+source <(fzf --zsh)
+
+# Start starship prompt
 eval "$(starship init zsh)"
