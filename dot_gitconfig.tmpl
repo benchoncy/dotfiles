@@ -1,6 +1,7 @@
 [user]
     name = Ben Stuart
     email = ben@benstuart.ie
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOWgRvHskkugDphe4+YPRUe3ztq0cOYV9hDlYMG7+roi 
 [core]
     editor = nvim
     autocrlf = input
@@ -10,6 +11,14 @@
     rebase = true
 [push]
     autoSetupRemote = true
+[commit]
+    gpgSign = true
+[gpg]
+    format = ssh
+[gpg "ssh"]
+{{ if eq .chezmoi.os "darwin" -}}
+    program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+{{ end -}}
 [alias]
     hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
     af = !git-afforester
