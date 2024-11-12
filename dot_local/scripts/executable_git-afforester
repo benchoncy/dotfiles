@@ -10,6 +10,7 @@ import argparse
 PROJECTS_PATH = os.environ.get("GAF__PROJECTS_PATH", os.path.expanduser("~/Projects"))
 PROJECTS_SUFFIX = os.environ.get("GAF__PROJECTS_SUFFIX", ".tree")
 BARE_FOLDER = os.environ.get("GAF__BARE_FOLDER", "bare.git")
+PROTECTED_BRANCHES = os.environ.get("GAF__PROTECTED_BRANCHES", "master,main").split(",")
 
 
 def plant(repo_uri):
@@ -21,6 +22,29 @@ def plant(repo_uri):
     project.uri = repo_uri
     # Checkout the repo as a bare repo
     os.system(f"git clone --bare {repo_uri} {project.full_path}/{BARE_FOLDER}")
+
+
+def clean(age="30d"):
+    """
+    Cleans up old worktrees.
+    """
+
+
+def iter_projects():
+    for root, _, __ in os.walk(PROJECTS_PATH):
+        if root.endswith(PROJECTS_SUFFIX):
+            yield root
+
+
+def get_worktrees():
+    worktrees = []
+    for project in iter_projects():
+        worktrees = os.listdir(project)
+        for protected_dir in PROTECTED_BRANCHES + [BARE_FOLDER]:
+            if protected_dir in worktrees:
+                worktrees.remove(protected_dir)
+
+    return worktrees
 
 
 class Worktree:
