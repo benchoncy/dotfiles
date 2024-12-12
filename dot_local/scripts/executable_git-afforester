@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 # Git Afforester
 # Inspired by tmux-sessionizer/tmux-windowizer for tmux, Git Afforester aims
-# to provide a simple and opinionated way to manage git based projects.
+# to provide a simple and opinionated way to manage git based projects to
+# accelerate my workflow and reduce the friction of context switching.
+# designed to integrate with tmux and other scripts/tools to provide
+# a seamless development experience tailored to my workflow.
 
 import os
 import argparse
@@ -24,10 +27,33 @@ def plant(repo_uri):
     os.system(f"git clone --bare {repo_uri} {project.full_path}/{BARE_FOLDER}")
 
 
-def clean(age="30d"):
+def clean(age="30", prune=True, force=False):
     """
     Cleans up old worktrees.
     """
+    if prune:
+        print("Pruning old worktrees...")
+        for project in iter_projects():
+            os.system(
+                f"cd {project}/{BARE_FOLDER} && git worktree prune --expire={age}d"
+            )
+
+    print(f"Cleaning up worktree not accessed in the last {age} days...")
+    args = ""
+    if force:
+        args += " --force"
+    age_in_seconds = int(age) * 24 * 60 * 60
+    current_time = int(os.popen("date +%s").read())
+    for project in iter_projects():
+        for worktree in get_worktrees(project):
+            most_recent_change = int(
+                os.popen(f"cd {project}/{worktree} && date -r ./ +%s").read()
+            )
+            if (current_time - most_recent_change) > age_in_seconds:
+                print(f"Removing {project}/{worktree}")
+                os.system(
+                    f"cd {project}/{BARE_FOLDER} && git worktree remove{args} {worktree}"
+                )
 
 
 def iter_projects():
@@ -36,10 +62,9 @@ def iter_projects():
             yield root
 
 
-def get_worktrees():
-    worktrees = []
-    for project in iter_projects():
-        worktrees = os.listdir(project)
+def get_worktrees(project, protected=False):
+    worktrees = os.listdir(project)
+    if not protected:
         for protected_dir in PROTECTED_BRANCHES + [BARE_FOLDER]:
             if protected_dir in worktrees:
                 worktrees.remove(protected_dir)
@@ -139,6 +164,25 @@ def main():
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers(dest="command")
 
+    clean_parser = subparsers.add_parser("clean")
+    clean_parser.add_argument(
+        "-a", "--age", help="The age in days to clean up.", default="30"
+    )
+    clean_parser.add_argument(
+        "-p",
+        "--prune",
+        help="Prune old worktrees first.",
+        action="store_true",
+        default=True,
+    )
+    clean_parser.add_argument(
+        "-f",
+        "--force",
+        help="Force remove worktrees.",
+        action="store_true",
+        default=False,
+    )
+
     plant_parser = subparsers.add_parser("plant")
     plant_parser.add_argument("repo_uri", help="The git repo uri to plant.")
 
@@ -151,7 +195,9 @@ def main():
 
     args = parser.parse_args()
 
-    if args.command == "plant":
+    if args.command == "clean":
+        clean(args.age, args.prune, args.force)
+    elif args.command == "plant":
         plant(args.repo_uri)
     elif args.command == "worktree":
         worktree = Worktree(args.project)
