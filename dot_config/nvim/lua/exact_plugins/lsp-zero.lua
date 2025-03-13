@@ -63,7 +63,7 @@ return {
                 'lua_ls', -- Lua language server
                 'bashls', -- Bash language server
                 'ruff', -- Python language server and formatter
-                'pyright', -- Python static type checker
+                'pylsp', -- Python language server
                 'gopls', -- Go language server
                 'terraformls', -- Terraform language server
                 'rust_analyzer', -- Rust language server
