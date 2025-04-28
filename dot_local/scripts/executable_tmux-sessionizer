@@ -11,7 +11,7 @@ else
     if [[ -x $(command -v jira) ]]; then
         jira_server=$(yq ".server" ~/.config/.jira/.config.yml)
         jira_server_code=$(curl -f -s -m 1 $jira_server -o /dev/null -w "%{http_code}")
-        if [[ $jira_server_code -eq 200 ]]; then
+        if [[ $jira_server_code -eq 200 || $jira_server_code -eq 302 ]]; then
             session_options+=$(jira issue list \
                 -q 'assignee = currentUser() AND resolution = Unresolved AND project IS NOT EMPTY' \
                 --plain \

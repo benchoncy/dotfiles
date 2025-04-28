@@ -9,7 +9,7 @@ alias kd="kubectl describe"
 alias kl="kubectl logs"
 
 function kdebug() { # [k]ubectl run [debug] pod
-  kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
+  kubectl run -i --tty --rm debug --image=ubuntu --restart=Never -- sh
 }
 
 function kexec() { # [k]ubectl [exec] into pod
