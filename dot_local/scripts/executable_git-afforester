@@ -6,8 +6,8 @@
 # designed to integrate with tmux and other scripts/tools to provide
 # a seamless development experience tailored to my workflow.
 
-import os
 import argparse
+import os
 
 # Environment variables
 PROJECTS_PATH = os.environ.get("GAF__PROJECTS_PATH", os.path.expanduser("~/Projects"))

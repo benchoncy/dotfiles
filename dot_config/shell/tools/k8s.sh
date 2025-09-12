@@ -1,12 +1,11 @@
 SHELL_NAME=$(basename $SHELL)
 
-alias k="kubectl"
-alias kctx="kubectx"
-alias kns="kubens"
+alias k="kubectl" # [k]ubectl
+alias kctx="kubectx" # [k]ubectl [ctx]
+alias kns="kubens" # [k]ubectl [ns]
 
-alias kg="kubectl get"
-alias kd="kubectl describe"
-alias kl="kubectl logs"
+alias kg="kubectl get" # [k]ubectl [g]et
+alias kd="kubectl describe" # [k]ubectl [d]escribe
 
 function kdebug() { # [k]ubectl run [debug] pod
   kubectl run -i --tty --rm debug --image=ubuntu --restart=Never -- sh

@@ -12,21 +12,21 @@ return {
         require("refactoring").setup()
         require("telescope").load_extension("refactoring")
         -- Func keymaps
-        vim.keymap.set("x", "<leader>re", ":Refactor extract ", { desc = "[r]efactor func [e]xtract" })
-        vim.keymap.set("x", "<leader>rf", ":Refactor extract_to_file ", { desc = "[r]efactor func to [f]ile" })
-        vim.keymap.set( "n", "<leader>rI", ":Refactor inline_func", { desc = "[r]efactor func to [I]nline" })
+        vim.keymap.set("x", "<leader>rf", ":Refactor extract ", { desc = "Extract func" })
+        vim.keymap.set("x", "<leader>rF", ":Refactor extract_to_file ", { desc = "Extract func to file" })
+        vim.keymap.set( "n", "<leader>rI", ":Refactor inline_func", { desc = "Inline func" })
         -- Var keymaps
-        vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ", { desc = "[r]efactor [v]ar extract" })
-        vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var", { desc = "[r]efactor var to [i]nline" })
+        vim.keymap.set("x", "<leader>rv", ":Refactor extract_var ", { desc = "Extract var" })
+        vim.keymap.set({ "n", "x" }, "<leader>ri", ":Refactor inline_var", { desc = "Inline var" })
         -- Block keymaps
-        vim.keymap.set("n", "<leader>rb", ":Refactor extract_block", { desc = "[r]efactor [b]lock extract" })
-        vim.keymap.set("n", "<leader>rbf", ":Refactor extract_block_to_file", { desc = "[r]efactor [b]lock to [f]ile" })
+        vim.keymap.set("n", "<leader>rb", ":Refactor extract_block", { desc = "Extract block" })
+        vim.keymap.set("n", "<leader>rB", ":Refactor extract_block_to_file", { desc = "Extract block to file" })
         -- Selection keymaps
         vim.keymap.set(
             {"n", "x"},
             "<leader>rr",
             function() require('telescope').extensions.refactoring.refactors() end,
-            { desc = "[r]efactoring [r]efactors" }
+            { desc = "Show refactoring options" }
         )
     end,
 }

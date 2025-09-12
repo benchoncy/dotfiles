@@ -11,6 +11,6 @@ return {
                 show_hidden = true,
             },
         })
-        vim.keymap.set("n", "<leader>e", ":Oil<CR>", { desc = '[E]nter filesystem mode' })
+        vim.keymap.set("n", "<leader>e", ":Oil<CR>", { desc = 'Enter filesystem mode' })
     end,
 }

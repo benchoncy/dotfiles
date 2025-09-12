@@ -16,6 +16,7 @@ return {
         'zbirenbaum/copilot-cmp',
         -- NeoVim Development
         { 'folke/neodev.nvim', opts = {} },
+
     },
     config = function()
         local lsp_zero = require('lsp-zero')
@@ -27,17 +28,17 @@ return {
             end
 
             -- Set keymaps for LSP
-            map('gd', require('telescope.builtin').lsp_definitions, '[g]oto [d]efinition')
-            map('gD', vim.lsp.buf.declaration, '[g]oto [D]eclaration')
-            map('gr', require('telescope.builtin').lsp_references, '[g]oto [r]eferences')
-            map('gI', require('telescope.builtin').lsp_implementations, '[g]oto [I]mplementations')
-            map('<leader>D', require('telescope.builtin').lsp_type_definitions, 'Type [D]efinition')
-            map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[d]ocument [s]ymbols')
-            map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[w]orkspace [s]ymbols')
-            map('<leader>rn', vim.lsp.buf.rename, '[r]e[n]ame')
-            map('<leader>ca', vim.lsp.buf.code_action, '[c]ode [a]ction')
-            map('K', vim.lsp.buf.hover, 'Hover Documentation')
-            map('<leader>lf', function() vim.lsp.buf.formatting({async = true, timeout = 10000}) end, '[l]anguage [f]ormat')
+            map('gd', require('telescope.builtin').lsp_definitions, 'Go to definition')
+            map('gD', vim.lsp.buf.declaration, 'Go to declaration')
+            map('gr', require('telescope.builtin').lsp_references, 'Go to references')
+            map('gI', require('telescope.builtin').lsp_implementations, 'Go to implementations')
+            map('gt', require('telescope.builtin').lsp_type_definitions, 'Go to type definitions')
+            map('gsd', require('telescope.builtin').lsp_document_symbols, 'Go to document symbols')
+            map('gsw', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Go to workspace symbols')
+            map('<leader>rn', vim.lsp.buf.rename, 'Rename')
+            map('<leader>c', vim.lsp.buf.code_action, 'Code action')
+            map('K', vim.lsp.buf.hover, 'Hover documentation')
+            map('<leader>l', function() vim.lsp.buf.formatting({async = true, timeout = 10000}) end, 'Langauge format')
         end)
 
         -- `format_on_save` should run only once, before the language servers are active.
