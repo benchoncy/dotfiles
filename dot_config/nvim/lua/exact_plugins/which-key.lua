@@ -18,6 +18,7 @@ return {
       { "<leader>x", group = "Diagnostics" },
       { "<leader>r", group = "Refactoring" },
       { "v<leader>r", group = "Refactoring" },
+      { "<leader>h", group = "Harpoon" },
     },
   },
   keys = {
