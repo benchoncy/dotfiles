@@ -49,7 +49,6 @@ return {
           },
           -- The servers that should be enabled for formatting on save, formatted as {[server_name] = {filetypes}}
           servers = {
-            ['rust_analyzer'] = {'rust'},
             ['gopls'] = {'go'},
             ['ruff'] = {'python'},
             ['bashls'] = {'bash'},
@@ -64,10 +63,9 @@ return {
                 'lua_ls', -- Lua language server
                 'bashls', -- Bash language server
                 'ruff', -- Python language server and formatter
-                'pylsp', -- Python language server
+                -- 'pylsp', -- Python language server
                 'gopls', -- Go language server
                 'terraformls', -- Terraform language server
-                'rust_analyzer', -- Rust language server
             },
             handlers = {
                 lsp_zero.default_setup,

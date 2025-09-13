@@ -70,3 +70,6 @@ vim.opt.termguicolors = true
 
 -- Set the color column to 80 characters as a visual aid.
 vim.opt.colorcolumn = "80"
+
+-- Disable unused providers to speed up startup time.
+vim.g.loaded_python3_provider = 0
