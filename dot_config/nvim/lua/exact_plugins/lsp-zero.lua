@@ -14,6 +14,7 @@ return {
         'hrsh7th/cmp-nvim-lsp',
         'L3MON4D3/LuaSnip',
         'zbirenbaum/copilot-cmp',
+        'olimorris/codecompanion.nvim',
         -- NeoVim Development
         { 'folke/neodev.nvim', opts = {} },
 
@@ -82,13 +83,15 @@ return {
 
         cmp.setup({
             sources = {
-                -- Copilot Source
                 {name = "copilot", group_index = 2},
                 {name = 'nvim_lsp', group_index = 2},
                 {name = 'path', group_index = 2},
                 {name = 'nvim_lua'},
                 {name = 'luasnip'},
                 {name = 'buffer', keyword_length = 3},
+                per_filetype = {
+                    codecompanion = { "codecompanion" },
+                },
             },
             formatting = lsp_zero.cmp_format({details = false}),
             mapping = cmp.mapping.preset.insert({

@@ -19,6 +19,8 @@ return {
       { "<leader>r", group = "Refactoring" },
       { "v<leader>r", group = "Refactoring" },
       { "<leader>h", group = "Harpoon" },
+      { "<leader>a", group = "AI" },
+      { "v<leader>a", group = "AI" },
     },
   },
   keys = {
