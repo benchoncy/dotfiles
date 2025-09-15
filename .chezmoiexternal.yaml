@@ -14,5 +14,5 @@
 
 ".config/kitty/theme.conf":
   type: file
-  url: https://raw.githubusercontent.com/dexpota/kitty-themes/master/themes/OneDark.conf
+  url: https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/macchiato.conf
   refreshPeriod: 168h

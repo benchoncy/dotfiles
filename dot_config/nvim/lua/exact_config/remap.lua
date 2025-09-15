@@ -19,8 +19,14 @@ vim.keymap.set('n', '<leader>xq', vim.diagnostic.setloclist, { desc = 'Open diag
 vim.keymap.set('n', '[b', ':bprev<CR>', { desc = 'Prev buffer' })
 vim.keymap.set('n', ']b', ':bnext<CR>', { desc = 'Next buffer' })
 
--- Disable arrow keys in all modes
-vim.keymap.set({'n', 'i', 'v'}, '<Up>', '<Nop>')
-vim.keymap.set({'n', 'i', 'v'}, '<Down>', '<Noop>')
-vim.keymap.set({'n', 'i', 'v'}, '<Left>', '<Noop>')
-vim.keymap.set({'n', 'i', 'v'}, '<Right>', '<Noop>')
+-- Add insert and command mode navigation
+vim.keymap.set({'i', 'c'}, '<C-h>', '<Left>', { desc = 'Move cursor left' })
+vim.keymap.set({'i', 'c'}, '<C-j>', '<Down>', { desc = 'Move cursor down' })
+vim.keymap.set({'i', 'c'}, '<C-k>', '<Up>', { desc = 'Move cursor up' })
+vim.keymap.set({'i', 'c'}, '<C-l>', '<Right>', { desc = 'Move cursor right' })
+
+-- Disable arrow keys
+vim.keymap.set({'n', 'i', 'v'}, '<Up>', '<Nop>', { desc = 'Disable Up arrow key' })
+vim.keymap.set({'n', 'i', 'v'}, '<Down>', '<Nop>', { desc = 'Disable Down arrow key' })
+vim.keymap.set({'n', 'i', 'v'}, '<Left>', '<Nop>', { desc = 'Disable Left arrow key' })
+vim.keymap.set({'n', 'i', 'v'}, '<Right>', '<Nop>', { desc = 'Disable Right arrow key' })

@@ -2,9 +2,13 @@
 -- Purpose: Provides a UI theme.
 
 return {
-    "navarasu/onedark.nvim",
+    "catppuccin/nvim",
+    name = "catppuccin",
+    priority = 1000,
+    opts = {
+        auto_integrations = true,
+    },
     config = function ()
-        require("onedark").setup()
-        vim.cmd.colorscheme "onedark"
+        vim.cmd.colorscheme "catppuccin-macchiato"
     end
 }
