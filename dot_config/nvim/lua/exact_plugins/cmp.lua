@@ -8,12 +8,13 @@ return {
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-buffer',
         'hrsh7th/cmp-emoji',
+        'hrsh7th/cmp-cmdline',
         'zbirenbaum/copilot-cmp',
         'olimorris/codecompanion.nvim',
     },
     config = function()
         local cmp = require('cmp')
-        local cmp_select = {behavior = cmp.SelectBehavior.Select}
+        local cmp_select = { behavior = cmp.SelectBehavior.Select }
 
         cmp.setup({
             window = {
@@ -21,11 +22,11 @@ return {
                 documentation = cmp.config.window.bordered(),
             },
             sources = {
-                {name = "copilot", group_index = 2},
-                {name = 'nvim_lsp', group_index = 2},
-                {name = 'buffer', keyword_length = 3},
-                {name = 'emoji'},
-                {name = 'path', group_index = 4},
+                { name = "copilot",  priority = 100,  max_item_count = 3 },
+                { name = 'nvim_lsp', priority = 100 },
+                { name = 'buffer',   priority = 10 },
+                { name = 'emoji',    group_index = 5, keyword_length = 2 },
+                { name = 'path',     group_index = 6 },
                 per_filetype = {
                     codecompanion = { "codecompanion" },
                 },
@@ -37,6 +38,16 @@ return {
                 ['<C-Space>'] = cmp.mapping.complete(),
             }),
             snippet = {},
+        })
+
+        cmp.setup.cmdline(':', {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = cmp.config.sources({
+                { name = 'path' }
+            }, {
+                { name = 'cmdline' }
+            }),
+            matching = { disallow_symbol_nonprefix_matching = false }
         })
     end,
 }

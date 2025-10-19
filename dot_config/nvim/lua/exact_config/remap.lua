@@ -1,9 +1,5 @@
 -- Set leader key and add or override key mappings
 
--- Set leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 -- Add or override key mappings
 -- see `:help vim.keymap.set()` for more information
 vim.keymap.set("n", "<leader>e", ":Ex<CR>", { desc = 'Enter filesystem mode' })
@@ -14,7 +10,7 @@ vim.keymap.set('n', 'K', vim.lsp.buf.hover, {desc = 'Hover documentation'})
 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { desc = 'Rename symbol'})
 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = 'Go to definition' })
 vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { desc = 'Go to declaration' })
-vim.keymap.set('n', '<leader>F', function() vim.lsp.buf.formatting({async = true, timeout = 10000}) end, { desc = 'Format' })
+vim.keymap.set({'n', 'v'}, '<leader>F', vim.lsp.buf.format, { desc = 'Format' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to prev diagnostic message' })

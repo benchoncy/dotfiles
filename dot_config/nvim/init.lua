@@ -9,8 +9,9 @@
 -- Python packages:
 -- - neovim
 
--- Load regular config
-require("config")
+-- Set leader key
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 -- Bootstrap lazy.nvim if it doesn't exist
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -25,6 +26,9 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
+
+-- Load regular config
+require("config")
 
 -- Setup lazy plugins
 require("lazy").setup("plugins")
