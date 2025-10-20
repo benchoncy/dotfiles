@@ -12,22 +12,21 @@ import os
 # Environment variables
 PROJECTS_PATH = os.environ.get("GAF__PROJECTS_PATH", os.path.expanduser("~/Projects"))
 PROJECTS_SUFFIX = os.environ.get("GAF__PROJECTS_SUFFIX", ".tree")
-BARE_FOLDER = os.environ.get("GAF__BARE_FOLDER", "bare.git")
-PROTECTED_BRANCHES = os.environ.get("GAF__PROTECTED_BRANCHES", "master,main").split(",")
+DEFAULT_BRANCH_WORKTREE = os.environ.get("GAF__DEFAULT_BRANCH_WORKTREE", "default")
 
 
-def plant(repo_uri):
+def plant(repo_uri: str):
     """
     Adds a new project to the forest.
     """
 
     project = Project()
     project.uri = repo_uri
-    # Checkout the repo as a bare repo
-    os.system(f"git clone --bare {repo_uri} {project.full_path}/{BARE_FOLDER}")
+    # Checkout the repo on default branch worktree
+    os.system(f"git clone {repo_uri} {project.full_path}/{DEFAULT_BRANCH_WORKTREE}")
 
 
-def clean(age="30", prune=True, force=False):
+def clean(age: int = 30, prune: bool = True, force: bool = False):
     """
     Cleans up old worktrees.
     """
@@ -35,7 +34,7 @@ def clean(age="30", prune=True, force=False):
         print("Pruning old worktrees...")
         for project in iter_projects():
             os.system(
-                f"cd {project}/{BARE_FOLDER} && git worktree prune --expire={age}d"
+                f"cd {project}/{DEFAULT_BRANCH_WORKTREE} && git worktree prune --expire={str(age)}d"
             )
 
     print(f"Cleaning up worktree not accessed in the last {age} days...")
@@ -52,7 +51,7 @@ def clean(age="30", prune=True, force=False):
             if (current_time - most_recent_change) > age_in_seconds:
                 print(f"Removing {project}/{worktree}")
                 os.system(
-                    f"cd {project}/{BARE_FOLDER} && git worktree remove{args} {worktree}"
+                    f"cd {project}/{DEFAULT_BRANCH_WORKTREE} && git worktree remove{args} {worktree}"
                 )
 
 
@@ -62,13 +61,11 @@ def iter_projects():
             yield root
 
 
-def get_worktrees(project, protected=False):
+def get_worktrees(project: str, protected: bool = False) -> list[str]:
     worktrees = os.listdir(project)
     if not protected:
-        for protected_dir in PROTECTED_BRANCHES + [BARE_FOLDER]:
-            if protected_dir in worktrees:
-                worktrees.remove(protected_dir)
-
+        if DEFAULT_BRANCH_WORKTREE in worktrees:
+            worktrees.remove(DEFAULT_BRANCH_WORKTREE)
     return worktrees
 
 
@@ -77,10 +74,10 @@ class Worktree:
     Manages project git worktrees.
     """
 
-    def __init__(self, project):
+    def __init__(self, project: str):
         self.project = Project(project)
 
-    def add(self, branch, pull=True):
+    def add(self, branch: str, pull: bool = True):
         """
         Creates a worktree for the given branch name.
         """
@@ -88,7 +85,7 @@ class Worktree:
         # Create the worktree if it doesn't exist
         if not os.path.isdir(branch_path):
             os.system(
-                f"cd {self.project.full_path}/{BARE_FOLDER} && git worktree add ../{branch} &> /dev/null"
+                f"cd {self.project.full_path}/{DEFAULT_BRANCH_WORKTREE} && git pull && git worktree add ../{branch} &> /dev/null"
             )
             if pull:
                 os.system(f"cd {branch_path} && git pull &> /dev/null")
@@ -96,32 +93,34 @@ class Worktree:
         # Output the path to the worktree
         print(branch_path)
 
-    def remove(self, branch):
+    def remove(self, branch: str):
         """
         Removes a worktree for the given branch name.
         """
         if os.path.isdir(f"{self.project.full_path}/{branch}"):
             os.system(
-                f"cd {self.project.full_path}/{BARE_FOLDER} && git worktree remove ../{branch} &> /dev/null"
+                f"cd {self.project.full_path}/{DEFAULT_BRANCH_WORKTREE} && git worktree remove ../{branch} &> /dev/null"
             )
 
 
 class Project:
-    def __init__(self, path=None):
-        self.domain = None
-        self.owner = None
-        self.repo = None
-        self.local_path = None
-        self._uri = None
+    domain: str
+    owner: str
+    repo: str
+    local_path: str
+    _uri: str
+    _path: str
+
+    def __init__(self, path: str | None = None):
         if path:
             self.path = path
 
     @property
-    def path(self):
+    def path(self) -> str:
         return self._path
 
     @path.setter
-    def path(self, value):
+    def path(self, value: str):
         value = os.path.abspath(value)
         self._path = value
         self.domain, self.owner, self.repo = self._decompose_path(value)
@@ -132,28 +131,28 @@ class Project:
         return self._uri
 
     @uri.setter
-    def uri(self, value):
+    def uri(self, value: str):
         if not value.endswith(".git"):
             raise Exception("Invalid git repo url:", value)
         self._uri = value
         self.domain, self.owner, self.repo = self._decompose_uri(value)
         self.local_path = self._create_local_path()
 
-    def _create_local_path(self):
+    def _create_local_path(self) -> str:
         return f"{self.domain}/{self.owner}/{self.repo}{PROJECTS_SUFFIX}"
 
     @property
-    def full_path(self):
+    def full_path(self) -> str:
         project_path = os.path.abspath(PROJECTS_PATH)
         return f"{project_path}/{self.local_path}"
 
-    def _decompose_path(self, path):
+    def _decompose_path(self, path: str) -> tuple[str, str, str]:
         path = path.replace(f"{os.path.abspath(PROJECTS_PATH)}/", "")
         domain, owner, repo = path.split("/")
         repo = repo.replace(PROJECTS_SUFFIX, "")
         return domain, owner, repo
 
-    def _decompose_uri(self, uri):
+    def _decompose_uri(self, uri: str) -> tuple[str, str, str]:
         domain, owner, repo = uri.replace(":", "/").split("/")
         repo = repo.replace(".git", "")
         domain = domain.replace("https://", "").replace("git@", "")
