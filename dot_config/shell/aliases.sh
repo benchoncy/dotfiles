@@ -1,7 +1,6 @@
 # Config
-alias tmuxconfig="chezmoi edit ~/.tmux.conf"
-alias vimconfig="chezmoi edit ~/.config/nvim/"
 alias dotconfig="chezmoi edit"
+alias vimconfig="chezmoi edit ~/.config/nvim/"
 
 # Editor
 alias vim="nvim"
