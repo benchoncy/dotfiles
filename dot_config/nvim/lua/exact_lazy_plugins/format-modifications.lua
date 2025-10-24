@@ -11,6 +11,7 @@ return {
         config = function()
             -- Create command to set autoformatting to modified sections only
             vim.api.nvim_create_user_command("FormatModeModified", function()
+                --- @diagnostic disable-next-line: duplicate-set-field
                 vim.g.autoformat_func = function(client, bufnr)
                     local lsp_format_modifications = require("lsp-format-modifications")
                     lsp_format_modifications.format_modifications(client, bufnr)

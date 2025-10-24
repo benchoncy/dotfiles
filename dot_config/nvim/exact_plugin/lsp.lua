@@ -1,19 +1,11 @@
 -- LSP configuration
 -- Purpose: Setup language servers for languages in use.
 
--- Fetch list of configured LSPs by reading the lsp directory
-local lsp_files = {}
-
-for _, file in pairs(vim.api.nvim_get_runtime_file('lsp/*.lua', true)) do
-    local name = vim.fn.fnamemodify(file, ":t:r") -- `:t` gets filename, `:r` removes extension
-    table.insert(lsp_files, name)
-end
-
-vim.g.lsp_files = lsp_files
-
+-- Enable LSPs for all configured files
 vim.lsp.enable(vim.g.lsp_files)
 
 -- Create commands for enabling/disabling autoformatting on save
+-- Used to toggle autoformatting on/off when needed
 vim.api.nvim_create_user_command("FormatDisable", function(args)
     if args.bang then
         -- FormatDisable! will disable formatting just for this buffer
@@ -34,7 +26,9 @@ end, {
 })
 
 -- Create command to set autoformatting to full buffer
+-- Used to set formatting mode to full buffer formatting
 vim.api.nvim_create_user_command("FormatModeFull", function()
+    --- @diagnostic disable-next-line: duplicate-set-field
     vim.g.autoformat_func = function(_, bufnr)
         vim.lsp.buf.format({
             bufnr = bufnr,

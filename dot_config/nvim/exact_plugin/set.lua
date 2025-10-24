@@ -30,7 +30,7 @@ vim.opt.smartcase = true
 vim.opt.signcolumn = 'yes'
 
 -- Decrease update time, makes things more snappy.
-vim.opt.updatetime = 250
+vim.opt.updatetime = 1250
 
 -- Decrease mapped sequence wait time.
 -- Displays which-key popup sooner.
