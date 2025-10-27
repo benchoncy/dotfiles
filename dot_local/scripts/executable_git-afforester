@@ -33,9 +33,7 @@ def clean(age: int = 30, prune: bool = True, force: bool = False):
     if prune:
         print("Pruning old worktrees...")
         for project in iter_projects():
-            os.system(
-                f"cd {project}/{DEFAULT_BRANCH_WORKTREE} && git worktree prune --expire={str(age)}d"
-            )
+            os.system(f"cd {project}/{DEFAULT_BRANCH_WORKTREE} && git worktree prune --expire={str(age)}d")
 
     print(f"Cleaning up worktree not accessed in the last {age} days...")
     args = ""
@@ -45,14 +43,10 @@ def clean(age: int = 30, prune: bool = True, force: bool = False):
     current_time = int(os.popen("date +%s").read())
     for project in iter_projects():
         for worktree in get_worktrees(project):
-            most_recent_change = int(
-                os.popen(f"cd {project}/{worktree} && date -r ./ +%s").read()
-            )
+            most_recent_change = int(os.popen(f"cd {project}/{worktree} && date -r ./ +%s").read())
             if (current_time - most_recent_change) > age_in_seconds:
                 print(f"Removing {project}/{worktree}")
-                os.system(
-                    f"cd {project}/{DEFAULT_BRANCH_WORKTREE} && git worktree remove{args} {worktree}"
-                )
+                os.system(f"cd {project}/{DEFAULT_BRANCH_WORKTREE} && git worktree remove{args} {worktree}")
 
 
 def iter_projects():
@@ -85,7 +79,7 @@ class Worktree:
         # Create the worktree if it doesn't exist
         if not os.path.isdir(branch_path):
             os.system(
-                f"cd {self.project.full_path}/{DEFAULT_BRANCH_WORKTREE} && git pull && git worktree add ../{branch} &> /dev/null"
+                f"cd {self.project.full_path}/{DEFAULT_BRANCH_WORKTREE} && git pull &> /dev/null && git worktree add ../{branch} &> /dev/null"
             )
             if pull:
                 os.system(f"cd {branch_path} && git pull &> /dev/null")
@@ -164,9 +158,7 @@ def main():
     subparsers = parser.add_subparsers(dest="command")
 
     clean_parser = subparsers.add_parser("clean")
-    clean_parser.add_argument(
-        "-a", "--age", help="The age in days to clean up.", default="30"
-    )
+    clean_parser.add_argument("-a", "--age", help="The age in days to clean up.", default="30")
     clean_parser.add_argument(
         "-p",
         "--prune",
@@ -186,9 +178,7 @@ def main():
     plant_parser.add_argument("repo_uri", help="The git repo uri to plant.")
 
     worktree_parser = subparsers.add_parser("worktree")
-    worktree_parser.add_argument(
-        "action", help="The action to perform.", choices=["add", "remove"]
-    )
+    worktree_parser.add_argument("action", help="The action to perform.", choices=["add", "remove"])
     worktree_parser.add_argument("branch", help="The branch to manage.")
     worktree_parser.add_argument("-p", "--project", help="The project to manage.")
 
