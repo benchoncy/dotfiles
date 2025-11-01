@@ -12,11 +12,6 @@
   type: git-repo
   url: https://github.com/tmux-plugins/tpm
 
-".config/kitty/theme.conf":
-  type: file
-  url: https://raw.githubusercontent.com/catppuccin/kitty/refs/heads/main/themes/macchiato.conf
-  refreshPeriod: 168h
-
 ".config/shell/tools/fzf-theme.sh":
   type: file
   url: https://raw.githubusercontent.com/catppuccin/fzf/refs/heads/main/themes/catppuccin-fzf-macchiato.sh
