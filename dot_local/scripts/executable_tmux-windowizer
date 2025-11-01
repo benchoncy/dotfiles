@@ -28,10 +28,13 @@ if [[ $# -eq 1 ]]; then
     project=$1
 else
     project=$(find ~/Projects -mindepth 3 -maxdepth 3 -type d \
-        | fzf --print-query --prompt="Project > " | tail -1 | xargs)
+        | fzf --print-query --prompt="Project > " \
+        --header="Note: prefix searches with ' to enable exact matching")
 fi
 if [[ -z $project ]]; then
     exit 0
+elif [[ ${project:0:1} == "'" ]]; then
+    project=${project:1}
 fi
 
 project_name=$(basename "$project")

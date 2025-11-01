@@ -1,7 +1,7 @@
 ---@type vim.lsp.Config
 return {
     cmd = { "yaml-language-server", "--stdio" },
-    filetypes = { "yaml", "yml" },
+    filetypes = { "yaml" },
     settings = {
         yaml = {
             hover = true,
@@ -19,8 +19,10 @@ return {
             schemas = {
                 ["https://www.schemastore.org/github-workflow"] = ".github/workflows/*",
                 ["https://www.schemastore.org/github-action"] = ".github/action.{yml,yaml}",
-                ["https://raw.githubusercontent.com/aws/serverless-application-model/main/samtranslator/schema/schema.json"] = "*{template,.sam}.{yml,yaml}",
-                ["https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json"] = "*{cloudformation,.cf}.{yml,yaml}"
+                ["https://raw.githubusercontent.com/aws/serverless-application-model/main/samtranslator/schema/schema.json"] =
+                "*{template,.sam}.{yml,yaml}",
+                ["https://raw.githubusercontent.com/awslabs/goformation/master/schema/cloudformation.schema.json"] =
+                "*{cloudformation,.cf}.{yml,yaml}"
             },
             customTags = {
                 "!fn",

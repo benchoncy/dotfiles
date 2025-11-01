@@ -1,5 +1,5 @@
 -- LSP configuration
--- Purpose: Setup language servers for languages in use.
+-- Purpose: Setup language servers for languages and commands/autocommands for LSP features
 
 -- Enable LSPs for all configured files
 vim.lsp.enable(vim.g.lsp_files)
@@ -40,25 +40,44 @@ end, {
 })
 vim.cmd.FormatModeFull() -- Default to full formatting
 
--- Create autocommand to format on save
+-- Create autocommand to apply LSP actions
 vim.api.nvim_create_autocmd("LspAttach", {
-    desc = "LSP format on save",
+    desc = "LSP actions",
     callback = function(args)
         local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
 
         -- Enable only if the LSP client supports formatting
         if not client or not client:supports_method("textDocument/formatting") then
             return
+        else
+            -- Apply autoformatting on save
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                buffer = args.buf,
+                callback = function()
+                    if vim.g.disable_autoformat or vim.b[args.buf].disable_autoformat then
+                        return
+                    end
+                    vim.g.autoformat_func(client, args.buf)
+                end
+            })
         end
 
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            buffer = args.buf,
-            callback = function()
-                if vim.g.disable_autoformat or vim.b[args.buf].disable_autoformat then
-                    return
+        -- Apply per-client code actions on save
+        -- Enable only if the LSP client supports code actions
+        if not client:supports_method("textDocument/codeAction") then
+            return
+        elseif client.name == "ruff" then
+            -- Special case for ruff LSP to run on save to fix linting issues
+            -- Runs fix-all and organize-imports code actions
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                buffer = args.buf,
+                callback = function()
+                    vim.lsp.buf.code_action({
+                        context = { only = { "source.fixAll" } },
+                        apply = true,
+                    })
                 end
-                vim.g.autoformat_func(client, args.buf)
-            end
-        })
+            })
+        end
     end
 })
