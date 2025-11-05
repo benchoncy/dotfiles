@@ -32,7 +32,7 @@ else
     session_name=$(fzf --prompt="Session > " \
         --print-query \
         --header="Note: prefix searches with ' to enable exact matching" \
-        <<< $session_options)
+        <<< $session_options | tail -n1 | awk '{print $1}')
 fi
 
 if [[ -z $session_name ]]; then
@@ -45,16 +45,19 @@ tmux_running=$(pgrep tmux)
 
 # if not in a tmux session, create one
 if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    echo "No tmux server running. Creating new tmux session: $session_name"
     tmux new-session -s $session_name
     exit 0
 fi
 
 # if in a tmux session, create one and switch to it; if it doesn't exist
 if ! tmux has-session -t=$session_name 2> /dev/null; then
+    echo "Creating new tmux session: $session_name"
     tmux new-session -ds $session_name
     tmux-windowizer -s $session_name
     # Remove default window
     tmux kill-window -t $session_name:1
 fi
 
+echo "Switching to tmux session: $session_name"
 tmux switch-client -t $session_name

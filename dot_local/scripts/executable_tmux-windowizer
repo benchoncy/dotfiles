@@ -44,4 +44,5 @@ if [[ $project_name == *.tree ]]; then
     project=$(git-afforester worktree add $session_name --project $project )
 fi
 
+echo "Creating new tmux window: $project_name in session: $session_name"
 tmux new-window -t "$session_name" -n "$project_name" -c "$project"

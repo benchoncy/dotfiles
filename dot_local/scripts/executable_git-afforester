@@ -20,8 +20,7 @@ def plant(repo_uri: str):
     Adds a new project to the forest.
     """
 
-    project = Project()
-    project.uri = repo_uri
+    project = Project(repo_uri)
     # Checkout the repo on default branch worktree
     os.system(f"git clone {repo_uri} {project.full_path}/{DEFAULT_BRANCH_WORKTREE}")
 
@@ -105,9 +104,11 @@ class Project:
     _uri: str
     _path: str
 
-    def __init__(self, path: str | None = None):
-        if path:
-            self.path = path
+    def __init__(self, uri: str):
+        if uri.endswith(".git") or uri.startswith("http") or uri.startswith("git@"):
+            self.uri = uri
+        else:
+            self.path = uri
 
     @property
     def path(self) -> str:
