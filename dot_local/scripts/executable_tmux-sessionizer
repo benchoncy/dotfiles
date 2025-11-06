@@ -2,6 +2,7 @@
 # Adapted from ThePrimeagen (https://github.com/ThePrimeagen/.dotfiles)
 # Manages tmux sessions named by ticket/task number by default
 
+project=""
 if [[ $# -eq 1 ]]; then
     session_name=$1
 else
@@ -31,26 +32,14 @@ else
     session_options=$(printf "$session_options" | sort -k 1 | uniq)
     session_name=$(fzf --prompt="Session > " \
         --print-query \
-        --header="Note: prefix searches with ' to enable exact matching" \
         <<< $session_options | tail -n1 | awk '{print $1}')
 fi
 
 if [[ -z $session_name ]]; then
     exit 0
-elif [[ ${session_name:0:1} == "'" ]]; then
-    session_name=${session_name:1}
 fi
 
-tmux_running=$(pgrep tmux)
-
-# if not in a tmux session, create one
-if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
-    echo "No tmux server running. Creating new tmux session: $session_name"
-    tmux new-session -s $session_name
-    exit 0
-fi
-
-# if in a tmux session, create one and switch to it; if it doesn't exist
+# if session does not exist, create one and switch to it; if it doesn't exist
 if ! tmux has-session -t=$session_name 2> /dev/null; then
     echo "Creating new tmux session: $session_name"
     tmux new-session -ds $session_name
@@ -60,4 +49,8 @@ if ! tmux has-session -t=$session_name 2> /dev/null; then
 fi
 
 echo "Switching to tmux session: $session_name"
-tmux switch-client -t $session_name
+if [[ -z $TMUX ]]; then
+    tmux attach-session -t $session_name
+else
+    tmux switch-client -t $session_name
+fi
