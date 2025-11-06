@@ -27,14 +27,16 @@ return {
             }):find()
         end
 
-        vim.keymap.set("n", "ho", function() toggle_telescope(harpoon:list()) end, { desc = "Open harpoon window" })
-        vim.keymap.set("n", "ha", function() harpoon:list():add() end, { desc = "Add file to harpoon" })
-        vim.keymap.set("n", "hr", function() harpoon:list():remove() end, { desc = "Remove file from harpoon" })
+        vim.keymap.set("n", "<leader>ho", function() toggle_telescope(harpoon:list()) end,
+            { desc = "Open harpoon window" })
+        vim.keymap.set("n", "<leader>ha", function() harpoon:list():add() end, { desc = "Add file to harpoon" })
+        vim.keymap.set("n", "<leader>hr", function() harpoon:list():remove() end, { desc = "Remove file from harpoon" })
+        vim.keymap.set("n", "<leader>hc", function() harpoon:list():clear() end, { desc = "Clear harpoon" })
         vim.keymap.set("n", "]h", function() harpoon:list():next() end, { desc = "Next harpoon file" })
         vim.keymap.set("n", "[h", function() harpoon:list():prev() end, { desc = "Prev harpoon file" })
-        vim.keymap.set("n", "h1", function() harpoon:list():select(1) end, { desc = "Go to harpoon file 1" })
-        vim.keymap.set("n", "h2", function() harpoon:list():select(2) end, { desc = "Go to harpoon file 2" })
-        vim.keymap.set("n", "h3", function() harpoon:list():select(3) end, { desc = "Go to harpoon file 3" })
-        vim.keymap.set("n", "h4", function() harpoon:list():select(4) end, { desc = "Go to harpoon file 4" })
+        vim.keymap.set("n", "<leader>h1", function() harpoon:list():select(1) end, { desc = "Go to harpoon file 1" })
+        vim.keymap.set("n", "<leader>h2", function() harpoon:list():select(2) end, { desc = "Go to harpoon file 2" })
+        vim.keymap.set("n", "<leader>h3", function() harpoon:list():select(3) end, { desc = "Go to harpoon file 3" })
+        vim.keymap.set("n", "<leader>h4", function() harpoon:list():select(4) end, { desc = "Go to harpoon file 4" })
     end,
 }

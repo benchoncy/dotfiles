@@ -8,7 +8,7 @@ return {
     opts = {
         auto_integrations = true,
     },
-    config = function ()
+    config = function()
         vim.cmd.colorscheme "catppuccin-macchiato"
     end
 }
