@@ -1,0 +1,8 @@
+{{ if .is_work -}}
+{{ include ".dotfiles-work/.aws/config" }}
+{{ else -}}
+[profile default 
+aws_access_key_id = {{ onepasswordRead "op://Private/Amazon AWS IAM/AWS_ACCESS_KEY_ID" }}
+aws_secret_access_key = {{ onepasswordRead "op://Private/Amazon AWS IAM/AWS_SECRET_ACCESS_KEY" }}
+region = eu-west-1
+{{ end -}}

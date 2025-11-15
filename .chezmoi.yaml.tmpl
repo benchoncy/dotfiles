@@ -6,5 +6,25 @@ data:
   is_work: {{ $is_work }}
 {{ if $is_work }}
   work_email: {{ promptStringOnce . "work_email" "What is your workplace email address" }}
-  work_git_server: {{ promptStringOnce . "work_github_server" "What is your workplace git server domain name" }}
+  work_username: {{ promptStringOnce . "work_username" "What is your workplace username" }}
+  work_git_server: {{ promptStringOnce . "work_git_server" "What is your workplace git server domain name" }}
+{{ end }}
+
+{{ if $is_work }}
+hooks:
+  read-source-state:
+    pre:
+      command: git
+      args:
+        - clone
+        - --depth
+        - "1"
+        - "git@{{ .work_git_server }}:{{ .work_username }}/dotfiles.git"
+        - "{{ .chezmoi.sourceDir }}/.dotfiles-work"
+  apply:
+    post:
+      command: rm
+      args:
+        - "-rf"
+        - "{{ .chezmoi.sourceDir }}/.dotfiles-work"
 {{ end }}
