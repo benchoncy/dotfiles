@@ -19,7 +19,7 @@ return {
                 autoImportCompletions = true,
                 useLibraryCodeForTypes = true,
                 diagnosticMode = "openFilesOnly",
-                typeCheckingMode = "strict",
+                typeCheckingMode = "recommended",
                 inlayHints = {
                     variableTypes = true,
                     callArgumentNames = true,
