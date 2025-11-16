@@ -14,17 +14,12 @@ data:
 hooks:
   read-source-state:
     pre:
-      command: git
+      command: bash
       args:
-        - clone
-        - --depth
-        - "1"
-        - "git@{{ .work_git_server }}:{{ .work_username }}/dotfiles.git"
-        - "{{ .chezmoi.sourceDir }}/.dotfiles-work"
-  apply:
-    post:
-      command: rm
-      args:
-        - "-rf"
-        - "{{ .chezmoi.sourceDir }}/.dotfiles-work"
+        - -c
+        - |
+          set -e
+          if [ ! -d "{{ .chezmoi.sourceDir }}/.dotfiles-work" ]; then
+            git clone --depth 1 "git@{{ .work_git_server }}:{{ .work_username }}/dotfiles.git" "{{ .chezmoi.sourceDir }}/.dotfiles-work"
+          fi
 {{ end }}
