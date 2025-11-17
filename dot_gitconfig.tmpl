@@ -17,7 +17,7 @@
     format = ssh
 [gpg "ssh"]
 {{ if eq .chezmoi.os "darwin" -}}
-    program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+    program = "/Applications/Nix Apps/1Password.app/Contents/MacOS/op-ssh-sign"
 {{ end -}}
 [alias]
     hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
