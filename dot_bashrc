@@ -5,7 +5,7 @@
 source $HOME/.config/shell/init.sh
 
 # Load fzf integration
-eval <(fzf --bash)
+eval "$(fzf --bash)"
 
 # Initialize zoxide
 eval "$(zoxide init bash)"
