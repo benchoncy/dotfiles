@@ -1,7 +1,6 @@
 Include config.d/*
 
 Host *
-  PubkeyAcceptedKeyTypes=+ssh-dss
   {{- if eq .chezmoi.os "linux" }}
   IdentityAgent ~/.1password/agent.sock
   {{ else if eq .chezmoi.os "darwin" }}

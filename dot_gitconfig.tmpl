@@ -16,8 +16,12 @@
 [gpg]
     format = ssh
 [gpg "ssh"]
-{{ if eq .chezmoi.os "darwin" -}}
+{{- if eq .chezmoi.os "darwin" }}
     program = "/Applications/Nix Apps/1Password.app/Contents/MacOS/op-ssh-sign"
+{{ else if and (eq .chezmoi.os "linux") (eq .chezmoi.osRelease.id "nixos") }}
+    program = {{ env "CUSTOM_1P_SIGNING_PROGRAM" }}
+{{ else if eq .chezmoi.os "linux" }}
+    program = "/usr/bin/op-ssh-sign"
 {{ end -}}
 [alias]
     hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
