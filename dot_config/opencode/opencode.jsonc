@@ -1,0 +1,26 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "autoupdate": false,
+  "share": "disabled",
+  "watcher": {
+    "ignore": [
+      "**/.git/**",
+      "**/node_modules/**",
+      "**/.cache/**",
+      "**/dist/**"
+    ]
+  },
+  "permission": {
+    "bash": {
+      "rm": "ask",
+      "rm *": "ask",
+      "git reset --hard*": "deny",
+      "git checkout --*": "deny",
+      "git clean -fd*": "deny",
+      "git clean -fdx*": "deny",
+      "git push -f*": "deny",
+      "git push --force*": "deny",
+      "git push --force-with-lease*": "deny"
+    }
+  }
+}
