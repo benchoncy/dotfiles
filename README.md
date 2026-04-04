@@ -4,5 +4,5 @@ These dotfiles are managed using [chezmoi](https://github.com/twpayne/chezmoi). 
 
 This configuration is intended to be relatively minimalist while also providing my desired functionality.
 
-> ![NOTE]
+> [!NOTE]
 > This repository is now archived as my dotfiles are now managed with home manager as part of a larger nix config (https://github.com/benchoncy/nix)
